@@ -8,7 +8,11 @@
             console.log(err);
         });
 
-        const socket = new WebSocket("ws://localhost:5173/ws");
+        const socket = new WebSocket("ws://localhost:6969/ws/");
+        socket.onerror = (err) => {
+            console.log("Socket Error");
+            console.log(err);
+        }
         socket.onopen = () => {
             console.log("Opened...");
             socket.send("message");
