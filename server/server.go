@@ -54,7 +54,7 @@ func configureWebsocket(server *fiber.App) {
 		var isCloseMessage = false
 
 		defer func(conn *websocket.Conn) {
-			err := conn.Close()
+			var err = conn.Close()
 			if err != nil {
 				fmt.Println("Error when trying to close the connection...")
 			}
@@ -87,7 +87,7 @@ func configureWebsocket(server *fiber.App) {
 	}))
 }
 
-func configureServer(server *fiber.App) {
+func configureServerRoutes(server *fiber.App) {
 	server.Get("/healthCheck", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("ok")
 	})
@@ -100,7 +100,7 @@ func main() {
 
 	var server = createServer()
 	configureWebsocket(server)
-	configureServer(server)
+	configureServerRoutes(server)
 
 	log.Fatal(server.Listen(":" + portNumber))
 }
