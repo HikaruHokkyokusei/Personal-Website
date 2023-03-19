@@ -1,4 +1,4 @@
-module Personal_Website
+module Server
 
 go 1.20
 
