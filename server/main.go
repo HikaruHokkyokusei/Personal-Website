@@ -16,16 +16,18 @@ var (
 	portNumber string
 )
 
+func getEnv(key string, defaultValue string) string {
+	if value, isPresent := os.LookupEnv(key); isPresent {
+		return value
+	} else {
+		return defaultValue
+	}
+}
+
 func initialize() {
 	fmt.Println("こんにちは　世界...")
-
-	envName, portNumber = os.Getenv("EnvName"), os.Getenv("PORT")
-	if envName == "" {
-		envName = "prd"
-	}
-	if portNumber == "" {
-		portNumber = "6969"
-	}
+	envName = getEnv("EnvName", "prd")
+	portNumber = getEnv("PORT", "6969")
 }
 
 func createServer() *fiber.App {

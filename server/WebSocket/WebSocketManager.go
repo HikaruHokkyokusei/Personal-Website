@@ -1,11 +1,17 @@
 package WebSocketManager
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
 )
+
+type WsMessage struct {
+	event string
+	data  any
+}
 
 func ConfigureWebsocket(server *fiber.App) {
 	server.Use("/ws", func(ctx *fiber.Ctx) error {
@@ -32,9 +38,10 @@ func ConfigureWebsocket(server *fiber.App) {
 		})
 
 		var (
-			mt  int
-			msg []byte
-			err error
+			mt        int
+			msg       []byte
+			err       error
+			wsMessage WsMessage
 		)
 		for {
 			if mt, msg, err = conn.ReadMessage(); err != nil {
@@ -43,7 +50,15 @@ func ConfigureWebsocket(server *fiber.App) {
 				}
 				break
 			}
-			fmt.Println("Received Message:", msg)
+
+			var temp map[string]any
+			var err = json.Unmarshal(msg, &temp)
+			if err != nil {
+				fmt.Println("Error when parsing the websocket message")
+				continue
+			}
+			wsMessage = WsMessage{temp["event"].(string), temp["data"]}
+			handleWebSocketMessage(wsMessage)
 
 			if err = conn.WriteMessage(mt, msg); err != nil {
 				fmt.Println("Error when sending message:", err)
@@ -51,4 +66,9 @@ func ConfigureWebsocket(server *fiber.App) {
 			}
 		}
 	}))
+}
+
+func handleWebSocketMessage(wsMessage WsMessage) {
+	switch wsMessage.event {
+	}
 }
