@@ -2,7 +2,7 @@
   <img src="PW-Info-Img.jpg" alt="Information about my personal website">
 </p>
 
-<h1 align="center">Lucky Gates Host</h1>
+<h1 align="center">Personal Website</h1>
 
 # Setting up the project
 
