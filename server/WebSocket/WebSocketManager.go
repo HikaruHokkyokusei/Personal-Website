@@ -3,15 +3,20 @@ package WebSocketManager
 import (
 	"encoding/json"
 	"fmt"
+	"sync"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/websocket/v2"
 	"github.com/google/uuid"
 )
 
-type WebSocketClient struct {
+type WsClientData struct {
 	uid  string
 	conn *websocket.Conn
+}
+type ConnectedWsClient struct {
+	mutex sync.Mutex
+	conn  *websocket.Conn
 }
 type WsClientMessage struct {
 	uid   string
@@ -20,17 +25,17 @@ type WsClientMessage struct {
 }
 
 var (
-	connectedClients = map[string]*websocket.Conn{}
-	clientMessages   = make(chan WsClientMessage, 1000)
-	registerClient   = make(chan WebSocketClient, 5)
-	unregisterClient = make(chan string, 5)
+	connectedClients = map[string]*ConnectedWsClient{}
+	registerClient   = make(chan WsClientData, 25)
+	unregisterClient = make(chan string, 25)
+	clientMessages   = make(chan WsClientMessage, 100)
 )
 
 func runClientHandler() {
 	for {
 		select {
 		case webSocketClient := <-registerClient:
-			connectedClients[webSocketClient.uid] = webSocketClient.conn
+			connectedClients[webSocketClient.uid] = &ConnectedWsClient{conn: webSocketClient.conn}
 			fmt.Println("New Connection:", webSocketClient.uid)
 
 		case clientId := <-unregisterClient:
@@ -38,13 +43,26 @@ func runClientHandler() {
 			fmt.Println("Disconnected:", clientId)
 
 		case clientMessage := <-clientMessages:
-			handleWebSocketMessage(clientMessage)
+			go func() {
+				handleWsClientMessage(clientMessage)
+			}()
 		}
 	}
 }
 
-func handleWebSocketMessage(wsClientMessage WsClientMessage) {
-	switch wsClientMessage.event {
+func handleWsClientMessage(wsClientMessage WsClientMessage) {
+	var clientData, ok = connectedClients[wsClientMessage.uid]
+	if ok {
+		clientData.mutex.Lock()
+		defer func() {
+			var clientData, ok = connectedClients[wsClientMessage.uid]
+			if ok {
+				clientData.mutex.Unlock()
+			}
+		}()
+
+		switch wsClientMessage.event {
+		}
 	}
 }
 
@@ -59,8 +77,8 @@ func ConfigureWebsocket(server *fiber.App) {
 	go runClientHandler()
 
 	server.Get("/ws", websocket.New(func(conn *websocket.Conn) {
-		var uid = uuid.New().String()
-		registerClient <- WebSocketClient{uid, conn}
+		var uid = uuid.New().String() + "-" + uuid.New().String()
+		registerClient <- WsClientData{uid, conn}
 
 		defer func(conn *websocket.Conn) {
 			unregisterClient <- uid
