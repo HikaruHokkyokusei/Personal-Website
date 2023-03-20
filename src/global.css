@@ -1,0 +1,26 @@
+html, body {
+    height: 100vh;
+    width: 100vw;
+
+    background: black;
+    color: aqua;
+
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.CenterColumnFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.CenterRowFlex {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
