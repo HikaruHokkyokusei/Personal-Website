@@ -26,6 +26,11 @@ html, body {
     --scroll-track-image: none;
 }
 
+body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+}
+
 ::-webkit-scrollbar {
     width: var(--scroll-bar-size);
     height: var(--scroll-bar-size);
