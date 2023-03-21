@@ -11,6 +11,47 @@ html, body {
     padding: 0;
 }
 
+:root {
+    /* Default Values */
+    --scroll-bar-size: 10px;
+
+    --scroll-thumb-radius: 5px;
+    --scroll-thumb-color: rgba(255, 255, 255, 0.6);
+    --scroll-thumb-hover-color: rgba(255, 255, 255, 0.75);
+    --scroll-thumb-image: none;
+    --scroll-thumb-hover-image: none;
+
+    --scroll-track-radius: 0;
+    --scroll-track-color: rgba(255, 255, 255, 0.15);
+    --scroll-track-image: none;
+}
+
+::-webkit-scrollbar {
+    width: var(--scroll-bar-size);
+    height: var(--scroll-bar-size);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-thumb-color);
+    background-image: var(--scroll-thumb-image);
+
+    border-radius: var(--scroll-thumb-radius);
+    -webkit-border-radius: var(--scroll-thumb-radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scroll-thumb-hover-color);
+    background-image: var(--scroll-thumb-hover-image);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--scroll-track-color);
+    background-image: var(--scroll-track-image);
+
+    border-radius: var(--scroll-track-radius);
+    -webkit-border-radius: var(--scroll-track-radius);
+}
+
 .CenterColumnFlex {
     display: flex;
     flex-direction: column;
