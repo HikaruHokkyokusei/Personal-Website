@@ -1,6 +1,11 @@
 <script lang="ts">
     import MediaQuery from "$lib/services/MediaQuery.svelte";
+    import { personalData } from "../lib/configs/PersonalData";
 </script>
+
+<svelte:head>
+    <title>{`${personalData.firstName} ${personalData.lastName}`}</title>
+</svelte:head>
 
 <div class="MainPageWrapper">
     <MediaQuery query="only screen and (min-aspect-ratio: 16 / 9)" let:matches>
@@ -11,7 +16,6 @@
             </div>
         </svelte:fragment>
     </MediaQuery>
-    <div style="width: 100%; height: 500px; background: coral"></div>
 </div>
 
 <style>
