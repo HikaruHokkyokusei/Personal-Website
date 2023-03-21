@@ -1,43 +1,44 @@
-FROM alpine AS base
+FROM node:18-alpine AS node-base
 WORKDIR /personal-website
 RUN apk upgrade
-
-
-FROM base as install-nodejs
-RUN apk add nodejs npm
-RUN npm install -g --upgrade npm
 RUN npm install -g --upgrade pnpm
 
 
-FROM install-nodejs as install-golang
-COPY --from=golang:1.20.2-alpine3.17 /usr/local/go/ /usr/local/go/
-ENV PATH="/usr/local/go/bin:${PATH}"
-RUN go version
-
-
-FROM install-golang as install-node-deps
-COPY package.json .
-RUN pnpm install
-
-
-FROM install-node-deps as install-go-deps
-WORKDIR /personal-website/server
-COPY ./server/. .
-RUN go get -u
+FROM golang:1.20.2-alpine3.17 AS go-base
 WORKDIR /personal-website
 
 
-FROM install-go-deps as copy-code
+FROM go-base as install-go-deps-and-build
+COPY ./server/. .
+RUN go get -u
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" ./main.go
+
+
+FROM node-base AS get-go-exec
+WORKDIR /personal-website-temp
+COPY --from=install-go-deps-and-build /personal-website/main .
+
+
+FROM get-go-exec as install-node-deps
+WORKDIR /personal-website
+COPY ./package.json .
+RUN pnpm install
+
+
+FROM install-node-deps as copy-code-and-files
 COPY . .
+RUN mv /personal-website-temp/main ./server/main
+RUN rmdir /personal-website-temp
 
 
-FROM copy-code as build-app
+FROM copy-code-and-files as build-node-app
+ENV NODE_ENV=production
 RUN pnpm run svelte:build
+RUN pnpm prune --prod
+
+
+FROM build-node-app as final
 WORKDIR /personal-website/server
-RUN go build ./main.go
-
-
-FROM build-app as final
 ENV PORT=6969
 ENV EnvName=prd
 EXPOSE 6969
