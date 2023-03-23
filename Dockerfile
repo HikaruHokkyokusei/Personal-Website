@@ -1,3 +1,5 @@
+ARG PORT
+
 FROM node:18-alpine AS node-base
 WORKDIR /personal-website
 RUN apk upgrade
@@ -39,7 +41,5 @@ RUN pnpm prune --prod
 
 FROM build-node-app as final
 WORKDIR /personal-website/server
-ENV PORT=6969
-ENV EnvName=prd
-EXPOSE 6969
+EXPOSE ${PORT}
 CMD ["./main"]

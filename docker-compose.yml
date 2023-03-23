@@ -1,0 +1,16 @@
+# ${} values are taken from the env. vars set in ./.env file.
+
+version: "3.8"
+services:
+  personal-website:
+    image: personal-website-image:${DOCKER_VERSION_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PORT: ${PORT}
+    container_name: personal-website-container
+    ports:
+      - "${BIND_PORT}:${PORT}/tcp"
+    env_file:
+      - .env
