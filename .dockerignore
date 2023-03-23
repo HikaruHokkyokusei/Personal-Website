@@ -1,6 +1,10 @@
 node_modules
 /build
 /.svelte-kit
-
 /.idea
 /Temp/
+
+Dockerfile
+PW-Info-Img.jpg
+README.md
+.gitignore

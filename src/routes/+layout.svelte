@@ -9,16 +9,26 @@
 
     onMount(async () => {
         const delayer = UtilService.delay(1250);
-        const hostUrl = document.location.host.replace("localhost:5173", "localhost:6969");
+        const websiteOrigin = document.location.origin.replace(/localhost:[0-9]{4,}$/, "localhost:6969");
 
-        const res = await fetch(`http://${hostUrl}/healthCheck`);
-        const response = new TextDecoder().decode((await res.body.getReader().read()).value);
-        console.log(`Health Check: ${response}`);
+        const res = await fetch(`${websiteOrigin}/healthCheck`);
+        let showValue = "❌", showError = null;
+        try {
+            if (new TextDecoder().decode((await res.body.getReader().read()).value).toLowerCase() === "ok") {
+                showValue = "✔️";
+            }
+        } catch (err) {
+            showError = err;
+        }
+        console.log(`Health Check: ${showValue}`);
+        if (showError) {
+            console.log(showError);
+        }
 
-        WebSocketService.connect(hostUrl);
-
-        await delayer;
-        isLoading = false;
+        WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"), async () => {
+            await delayer;
+            isLoading = false;
+        });
     });
 </script>
 
@@ -34,5 +44,8 @@
     .MainHolder {
         height: 100%;
         width: 100%;
+
+        position: relative;
+        z-index: 0;
     }
 </style>
