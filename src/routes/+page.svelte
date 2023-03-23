@@ -17,14 +17,24 @@
     <MediaQuery query="only screen and (min-aspect-ratio: 16 / 9)" let:matches>
         <svelte:fragment>
             <div class="MainPageSectionOneHolder" style="{matches ? 'height' : 'width' }: 100%;">
-                <video muted loop autoPlay>
+                <video muted loop autoPlay playsinline>
                     <source src="/videos/main-page-bg.webm" type="video/webm">
                 </video>
                 <div class="SectionOneContentHolder"
                      bind:clientWidth={s1ContentHolderWidth} bind:clientHeight={s1ContentHolderHeight}>
                     <div class="CenterColumnFlex SectionOneContentWrapper"
                          style="--s1-content-wrapper-width: {s1ContentWrapperWidth}px;">
-                        <h1>Kon'nichiwa Gojin</h1>
+                        <div class="SectionOneGreetHolder">
+                            Bonjour Monsieur
+                            <br>
+                            <ruby>
+                                こんにちは
+                                <rt>Kon'nichiwa</rt>
+                                &nbsp;&nbsp;
+                                御仁、
+                                <rt>Gojin</rt>
+                            </ruby>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,5 +93,12 @@
         position: absolute;
         top: 0;
         right: 0;
+    }
+
+    .SectionOneGreetHolder {
+        line-height: 2.5;
+
+        font-family: "Noto Sans Mono", sans-serif;
+        font-size: 50px;
     }
 </style>

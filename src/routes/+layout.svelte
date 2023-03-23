@@ -9,13 +9,13 @@
 
     onMount(async () => {
         const delayer = UtilService.delay(1250);
-        const hostUrl = document.location.host.replace("localhost:5173", "localhost:6969");
+        const websiteOrigin = document.location.origin.replace(/localhost:[0-9]{4,}$/, "localhost:6969");
 
-        const res = await fetch(`http://${hostUrl}/healthCheck`);
+        const res = await fetch(`${websiteOrigin}/healthCheck`);
         const response = new TextDecoder().decode((await res.body.getReader().read()).value);
         console.log(`Health Check: ${response}`);
 
-        WebSocketService.connect(hostUrl);
+        WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"));
 
         await delayer;
         isLoading = false;
