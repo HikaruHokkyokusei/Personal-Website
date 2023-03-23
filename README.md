@@ -16,7 +16,7 @@ To install the go dependencies, run the following commands starting from the `ro
 
 ```bash
 cd server
-go go -u
+go get -u
 ```
 
 # Building the svelte app
