@@ -12,13 +12,23 @@
         const websiteOrigin = document.location.origin.replace(/localhost:[0-9]{4,}$/, "localhost:6969");
 
         const res = await fetch(`${websiteOrigin}/healthCheck`);
-        const response = new TextDecoder().decode((await res.body.getReader().read()).value);
-        console.log(`Health Check: ${response}`);
+        let showValue = "❌", showError = null;
+        try {
+            if (new TextDecoder().decode((await res.body.getReader().read()).value).toLowerCase() === "ok") {
+                showValue = "✔️";
+            }
+        } catch (err) {
+            showError = err;
+        }
+        console.log(`Health Check: ${showValue}`);
+        if (showError) {
+            console.log(showError);
+        }
 
-        WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"));
-
-        await delayer;
-        isLoading = false;
+        WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"), async () => {
+            await delayer;
+            isLoading = false;
+        });
     });
 </script>
 

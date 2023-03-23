@@ -11,6 +11,6 @@ services:
         PORT: ${PORT}
     container_name: personal-website-container
     ports:
-      - "${BIND_PORT}:${PORT}/tcp"
+      - "${PORT}:${PORT}/tcp"
     env_file:
       - .env

@@ -4,16 +4,19 @@ export class WebSocketService {
 
     private static _messageHandlers: { [name: string]: (data: any) => any };
 
-    static connect = (originUrl: string) => {
+    static connect = (originUrl: string, connectSuccess?: () => any) => {
         this._socket = new WebSocket(`${originUrl}/ws/`);
 
         this._socket.onopen = () => {
             this._isConnected = true;
             console.log(`WebSocket connection opened with -> ${originUrl}/ws/`);
+            if (connectSuccess) {
+                connectSuccess();
+            }
         };
         this._socket.onerror = (event) => {
             this._isConnected = false;
-            this._socket.close(-1, "Websocket error");
+            this._socket.close(1000, "Websocket error");
             console.log("WebSocket error");
             console.log(event);
         };
