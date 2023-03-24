@@ -3,7 +3,7 @@
     import { onMount } from "svelte";
     import { WebSocketService } from "../lib/services/WebSocketService";
     import { UtilService } from "../lib/services/UtilService";
-    import MainLoader from "../lib/components/MainLoader.svelte";
+    import MainLoader from "$lib/components/generic/MainLoader.svelte";
 
     let isLoading = true;
 
