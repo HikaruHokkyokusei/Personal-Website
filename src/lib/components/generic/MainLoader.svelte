@@ -173,8 +173,7 @@
         width: 100%;
 
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0 auto auto 0;
 
         font-weight: 600;
         text-align: center;

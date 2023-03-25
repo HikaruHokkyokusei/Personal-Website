@@ -25,8 +25,7 @@
         width: calc(var(--hamburger-size) * 1em);
 
         position: absolute;
-        top: 30px;
-        right: 30px;
+        inset: 30px 30px auto auto;
         z-index: 100;
 
         border-radius: calc(var(--hamburger-size) * 0.5em);

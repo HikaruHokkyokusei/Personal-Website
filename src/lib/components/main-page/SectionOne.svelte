@@ -3,7 +3,7 @@
     import { genericDataStore } from "$lib/stores/GenericDataStore.js";
 
     const vidHeight = 9, vidWidth = 16;
-    let mpSOHolderWidth = 0, greetSlideHeight = 0;
+    let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0;
 </script>
 
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
@@ -17,17 +17,34 @@
             <div class="SOVideoOverlay"
                  style="--s1-cw-gap: {mpSOHolderWidth / 2}px; color: {$genericDataStore.theme.onBackground};">
                 <div class="SOGreetHolder">
-                    <div class="SOGreetSlider" bind:clientHeight={greetSlideHeight}
+                    <div class="SOSlider" bind:clientHeight={greetSlideHeight}
                          style="--greet-slider-height: {greetSlideHeight};">
-                        <div class="CenterRowFlex SOGreetWrapper">
+                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
                             Bonjour Monsieur,
                         </div>
-                        <div class="CenterRowFlex SOGreetWrapper">
+                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
                             <ruby>
                                 こんにちは
                                 <rt>Kon'nichiwa</rt>
                                 &nbsp;御仁、
                                 <rt>Gojin</rt>
+                            </ruby>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="SOIAmHolder">
+                    <div class="SOSlider" bind:clientHeight={iAmSlideHeight}
+                         style="--i-am-slider-height: {iAmSlideHeight};">
+                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                            I am
+                        </div>
+                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                            <ruby>
+                                拙者
+                                <rt>Sessha</rt>
+                                &nbsp;は
+                                <rt>wa</rt>
                             </ruby>
                         </div>
                     </div>
@@ -57,8 +74,7 @@
         height: 100%;
 
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0 auto auto 0;
         z-index: 2;
 
         pointer-events: none;
@@ -69,12 +85,15 @@
         width: calc(100vw - var(--scroll-bar-size));
 
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0 auto auto 0;
         z-index: 3;
 
+        --local-value: calc((var(--vid-width) * 5%) / var(--vid-height));
+
         display: grid;
-        grid-template: 6.5em calc((var(--vid-width) * 5%) / var(--vid-height)) auto / var(--s1-cw-gap) 5vw 35% auto;
+        grid-template:
+                6.5em var(--local-value) 0.25em var(--local-value) auto /
+                var(--s1-cw-gap) calc(var(--vid-width) * 0.86%) auto;
 
         overflow: auto;
     }
@@ -86,21 +105,37 @@
         overflow: hidden;
     }
 
-    .SOGreetSlider {
+    .SOSlider {
         height: 200%;
         width: 100%;
 
         animation: slide-up-down 10s ease-in infinite;
     }
 
-    .SOGreetWrapper {
+    .SOSliderTextWrapper {
         height: 50%;
         width: 100%;
 
         overflow: hidden;
+        justify-content: flex-start;
 
-        font: calc(var(--greet-slider-height) / 4 * 1px) "Noto Sans Mono", sans-serif;
-        text-align: center;
+        font-family: "Noto Sans Mono", sans-serif;
+        text-align: left;
+    }
+
+    .GreetWrapper {
+        font-size: calc(var(--greet-slider-height) / 4 * 1px);
+    }
+
+    .SOIAmHolder {
+        grid-row: 4 / 5;
+        grid-column: 3 / 4;
+
+        overflow: hidden;
+    }
+
+    .IAmWrapper {
+        font-size: calc(var(--i-am-slider-height) / 4 * 1px);
     }
 
     @keyframes slide-up-down {
