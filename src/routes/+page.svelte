@@ -21,7 +21,7 @@
         max-height: 100%;
         max-width: 100%;
 
-        overflow-y: auto;
+        overflow: hidden auto;
         scrollbar-gutter: stable;
 
         --scroll-track-color: rgba(255, 255, 255, 0.17);

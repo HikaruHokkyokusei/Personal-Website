@@ -2,36 +2,33 @@
     import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
     import { genericDataStore } from "$lib/stores/GenericDataStore.js";
 
-    let s1CHWidth = 0, s1CHHeight = 0, s1CWWidth;
-
-    $: {
-        s1CWWidth = Math.floor(s1CHWidth - (s1CHHeight * 8 / 9));
-    }
+    const vidHeight = 9, vidWidth = 16;
+    let mpSOHolderWidth = 0, greetSlideHeight = 0;
 </script>
 
-<MediaQuery query="only screen and (min-aspect-ratio: 16 / 9)" let:matches>
+<MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
     <svelte:fragment>
-        <div class="MPSOHolder" style="{matches ? 'height' : 'width' }: 100%;">
+        <div class="MPSOHolder" bind:clientWidth={mpSOHolderWidth}
+             style="--vid-height: {vidHeight}; --vid-width: {vidWidth}; {matches ? 'height' : 'width' }: 100%;">
             <video class="SOBgVideo" muted loop autoPlay playsinline>
                 <source src="/videos/main-page-bg.webm" type="video/webm">
             </video>
 
-            <div class="SOContentHolder" style="color: {$genericDataStore.theme.onBackground}"
-                 bind:clientWidth={s1CHWidth} bind:clientHeight={s1CHHeight}>
-                <div class="CenterColumnFlex SOContentWrapper" style="--s1-cw-width: {s1CWWidth}px;">
-                    <div class="SOGreetHolder">
-                        <div class="SOGreetSlider">
-                            <div class="CenterRowFlex SOGreetWrapper">
-                                Bonjour Monsieur,
-                            </div>
-                            <div class="CenterRowFlex SOGreetWrapper">
-                                <ruby>
-                                    こんにちは
-                                    <rt>Kon'nichiwa</rt>
-                                    &nbsp;御仁、
-                                    <rt>Gojin</rt>
-                                </ruby>
-                            </div>
+            <div class="SOVideoOverlay"
+                 style="--s1-cw-gap: {mpSOHolderWidth / 2}px; color: {$genericDataStore.theme.onBackground};">
+                <div class="SOGreetHolder">
+                    <div class="SOGreetSlider" bind:clientHeight={greetSlideHeight}
+                         style="--greet-slider-height: {greetSlideHeight};">
+                        <div class="CenterRowFlex SOGreetWrapper">
+                            Bonjour Monsieur,
+                        </div>
+                        <div class="CenterRowFlex SOGreetWrapper">
+                            <ruby>
+                                こんにちは
+                                <rt>Kon'nichiwa</rt>
+                                &nbsp;御仁、
+                                <rt>Gojin</rt>
+                            </ruby>
                         </div>
                     </div>
                 </div>
@@ -46,7 +43,11 @@
     */
 
     .MPSOHolder {
-        aspect-ratio: 16 / 9;
+        /* Default values for the vars passed */
+        --vid-height: 9;
+        --vid-width: 16;
+
+        aspect-ratio: var(--vid-width) / var(--vid-height);
 
         position: relative;
     }
@@ -63,7 +64,7 @@
         pointer-events: none;
     }
 
-    .SOContentHolder {
+    .SOVideoOverlay {
         height: 100%;
         width: calc(100vw - var(--scroll-bar-size));
 
@@ -71,20 +72,16 @@
         top: 0;
         left: 0;
         z-index: 3;
-    }
 
-    .SOContentWrapper {
-        width: var(--s1-cw-width);
-        height: 100%;
+        display: grid;
+        grid-template: 6.5em calc((var(--vid-width) * 5%) / var(--vid-height)) auto / var(--s1-cw-gap) 5vw 35% auto;
 
-        position: absolute;
-        top: 0;
-        right: 0;
+        overflow: auto;
     }
 
     .SOGreetHolder {
-        height: 90px;
-        width: 600px;
+        grid-row: 2 / 3;
+        grid-column: 3 / 4;
 
         overflow: hidden;
     }
@@ -100,7 +97,9 @@
         height: 50%;
         width: 100%;
 
-        font: 3rem "Noto Sans Mono", sans-serif;
+        overflow: hidden;
+
+        font: calc(var(--greet-slider-height) / 4 * 1px) "Noto Sans Mono", sans-serif;
         text-align: center;
     }
 
