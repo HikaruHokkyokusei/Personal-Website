@@ -133,7 +133,7 @@
         height: 200%;
         width: 100%;
 
-        animation: slide-up-down 10s ease-in infinite;
+        animation: slide-up-down 10s linear infinite;
     }
 
     .SOSliderTextWrapper {
@@ -174,7 +174,7 @@
 
         font-size: calc(var(--end-holder-height) / 2 * 1px);
 
-        animation: pulse-opacity 10s ease-in infinite;
+        animation: pulse-opacity 10s linear infinite;
     }
 
     @keyframes slide-up-down {

@@ -36,7 +36,7 @@
 
 <div class="CenterRowFlex MainHolder" style="background: {$genericDataStore.theme.background};">
     {#if isLoading}
-        <MainLoader></MainLoader>
+        <MainLoader ringGapEm="1.5"></MainLoader>
     {:else}
         <Hamburger></Hamburger>
         <slot></slot>
