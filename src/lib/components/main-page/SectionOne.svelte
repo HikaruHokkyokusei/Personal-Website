@@ -1,21 +1,40 @@
 <script lang="ts">
+    import { createEventDispatcher } from "svelte";
     import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import Animated5ColorBorderText from "$lib/components/generic/Animated5ColorBorderText.svelte";
     import { personalData } from "$lib/configs/PersonalData.js";
     import { genericDataStore } from "$lib/stores/GenericDataStore.js";
-    import Animated5ColorBorderText from "$lib/components/generic/Animated5ColorBorderText.svelte";
+
+    const dispatch = createEventDispatcher();
+    let canPlayVideo = false;
 
     const vidHeight = 9, vidWidth = 16;
     let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0, endHolderHeight = 0;
+
+    const loadStarted = () => {
+        if (!canPlayVideo) {
+            dispatch('videoLoading');
+        }
+    };
+
+    const loadCompleted = () => {
+        canPlayVideo = true;
+        dispatch('videoLoaded');
+    };
 </script>
+
+<svelte:head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
+</svelte:head>
 
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
     <svelte:fragment>
         <div class="MPSOHolder" bind:clientWidth={mpSOHolderWidth}
              style="--vid-height: {vidHeight}; --vid-width: {vidWidth}; {matches ? 'height' : 'width' }: 100%;">
-            <video class="SOBgVideo" muted loop autoPlay playsinline>
-                <source src="/videos/main-page-bg.webm" type="video/webm">
+            <video class="SOBgVideo" src="/videos/main-page-bg.webm" muted loop autoplay playsinline
+                   on:loadstart={loadStarted} on:loadeddata={loadCompleted}>
             </video>
-
             <div class="SOVideoOverlay"
                  style="--s1-cw-gap: {mpSOHolderWidth / 2}px; color: {$genericDataStore.theme.onBackground};">
                 <div class="SOGreetHolder">
@@ -28,8 +47,9 @@
                             <ruby>
                                 こんにちは
                                 <rt>Kon'nichiwa</rt>
-                                &nbsp;御仁、
+                                &nbsp;御仁
                                 <rt>Gojin</rt>
+                                、
                             </ruby>
                         </div>
                     </div>
@@ -44,9 +64,13 @@
                         <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
                             <ruby>
                                 拙者
+                                <rp>(</rp>
                                 <rt>Sessha</rt>
+                                <rp>)</rp>
                                 &nbsp;は
+                                <rp>(</rp>
                                 <rt>wa</rt>
+                                <rp>)</rp>
                             </ruby>
                         </div>
                     </div>
@@ -64,9 +88,14 @@
                          style="--end-holder-height: {endHolderHeight}">
                         <ruby>
                             で
+                            <rp>(</rp>
                             <rt>de</rt>
-                            &nbsp;ござる。
+                            <rp>)</rp>
+                            &nbsp;ござる
+                            <rp>(</rp>
                             <rt>Gozaru</rt>
+                            <rp>)</rp>
+                            。
                         </ruby>
                     </div>
                 </div>
@@ -133,7 +162,7 @@
         height: 200%;
         width: 100%;
 
-        animation: slide-up-down 10s ease-in infinite;
+        animation: slide-up-down 10s linear infinite;
     }
 
     .SOSliderTextWrapper {
@@ -174,7 +203,15 @@
 
         font-size: calc(var(--end-holder-height) / 2 * 1px);
 
-        animation: pulse-opacity 10s ease-in infinite;
+        animation: pulse-opacity 10s linear infinite;
+    }
+
+    ruby {
+        font-family: Meiryo, "Noto Serif JP", sans-serif;
+    }
+
+    ruby > rt {
+        font-family: "Noto Sans Mono", sans-serif;
     }
 
     @keyframes slide-up-down {

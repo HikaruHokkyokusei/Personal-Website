@@ -2,7 +2,6 @@
     import "../global.css";
     import { onMount } from "svelte";
     import { WebSocketService } from "../lib/services/WebSocketService";
-    import { UtilService } from "../lib/services/UtilService";
     import { genericDataStore } from "../lib/stores/GenericDataStore";
     import MainLoader from "$lib/components/generic/MainLoader.svelte";
     import Hamburger from "$lib/components/generic/Hamburger.svelte";
@@ -10,7 +9,6 @@
     let isLoading = true;
 
     onMount(async () => {
-        const delayer = UtilService.delay(1250);
         const websiteOrigin = document.location.origin.replace(/localhost:[0-9]{4,}$/, "localhost:6969");
 
         const res = await fetch(`${websiteOrigin}/healthCheck`);
@@ -28,7 +26,6 @@
         }
 
         WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"), async () => {
-            await delayer;
             isLoading = false;
         });
     });
@@ -36,9 +33,11 @@
 
 <div class="CenterRowFlex MainHolder" style="background: {$genericDataStore.theme.background};">
     {#if isLoading}
-        <MainLoader></MainLoader>
+        <MainLoader ringGapEm="1.5"></MainLoader>
     {:else}
-        <Hamburger></Hamburger>
+        {#if $genericDataStore.showHamburger}
+            <Hamburger></Hamburger>
+        {/if}
         <slot></slot>
     {/if}
 </div>

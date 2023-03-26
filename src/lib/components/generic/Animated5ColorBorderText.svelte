@@ -9,6 +9,10 @@
     let wrapperHeight = 0, wrapperWidth = 0;
 </script>
 
+<svelte:head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata&display=swap"/>
+</svelte:head>
+
 <div class="CenterRowFlex A5BCTWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
      style="--font-size-base: {wrapperHeight}; {holderStyle}">
     <svg width="{wrapperWidth}" height="{wrapperHeight}">
@@ -29,7 +33,7 @@
     .A5BCTWrapper {
         justify-content: flex-start;
 
-        font: calc((var(--font-size-base) / 1.15) * 1px) Open Sans, Impact;
+        font: calc((var(--font-size-base) / 1.3) * 1px) "Literata", "Open Sans", "sheirf";
         font-weight: bold;
         text-transform: uppercase;
 
@@ -39,7 +43,7 @@
     .QuadColorTextAnimation {
         fill: none;
 
-        stroke-width: 4;
+        stroke-width: 1;
         stroke-linejoin: round;
 
         stroke-dasharray: 70 330;

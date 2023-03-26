@@ -2,5 +2,6 @@ import type { Theme } from "./Theme";
 
 export interface GenericData {
     themeName: string,
-    theme: Theme
+    theme: Theme,
+    showHamburger: boolean
 }
