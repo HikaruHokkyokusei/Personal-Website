@@ -3,7 +3,9 @@
     import { onMount } from "svelte";
     import { WebSocketService } from "../lib/services/WebSocketService";
     import { UtilService } from "../lib/services/UtilService";
-    import MainLoader from "../lib/components/MainLoader.svelte";
+    import { genericDataStore } from "../lib/stores/GenericDataStore";
+    import MainLoader from "$lib/components/generic/MainLoader.svelte";
+    import Hamburger from "$lib/components/generic/Hamburger.svelte";
 
     let isLoading = true;
 
@@ -32,10 +34,11 @@
     });
 </script>
 
-<div class="CenterRowFlex MainHolder">
+<div class="CenterRowFlex MainHolder" style="background: {$genericDataStore.theme.background};">
     {#if isLoading}
         <MainLoader></MainLoader>
     {:else}
+        <Hamburger></Hamburger>
         <slot></slot>
     {/if}
 </div>

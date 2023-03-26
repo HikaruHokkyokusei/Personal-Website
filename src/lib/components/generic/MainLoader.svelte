@@ -10,10 +10,11 @@
 </script>
 
 <div class="CenterRowFlex LoaderWrapper">
-    <div class="CenterColumnFlex LoaderRingHolder"
-         style="--sideLength: {sideLengthEm}em; --tiltAngle: {tiltAngleDeg}deg; --rotationDuration: {rotationDurationS}s;
-         --ringThickness: {ringThicknessEm}em; --ringRadius: {ringRadius}em; --ringGap: {ringGapEm}em;"
-    >
+    <!--suppress HtmlUnknownAttribute -->
+    <div class="CenterColumnFlex LoaderRingHolder" style:--sideLength="{sideLengthEm}em"
+         style:--tiltAngle="{tiltAngleDeg}deg" style:--rotationDuration="{rotationDurationS}s"
+         style:--ringThickness="{ringThicknessEm}em" style:--ringRadius="{ringRadius}em"
+         style:--ringGap="{ringGapEm}em">
         <div class="LoaderRing">
             <div class="LoaderRingSector" style="--n: 1;">L</div>
             <div class="LoaderRingSector" style="--n: 2;">o</div>
@@ -95,7 +96,14 @@
 </div>
 
 <style>
-    :root {
+    .LoaderWrapper {
+        width: 100%;
+        height: 100%;
+
+        color: #3df1f1;
+        font: 1em Dosis, sans-serif;
+        font-size: calc((16px + (24 - 16) * (100vw - 320px) / (1280 - 320) * 10 / 7));
+
         --sideLength: 10em;
         --tiltAngle: 20deg;
         --rotationDuration: 8s;
@@ -105,15 +113,6 @@
         --ringGap: 0.5em;
 
         --n: 0;
-    }
-
-    .LoaderWrapper {
-        width: 100%;
-        height: 100%;
-
-        color: #3df1f1;
-        font: 1em Dosis, sans-serif;
-        font-size: calc((16px + (24 - 16) * (100vw - 320px) / (1280 - 320) * 10 / 7));
     }
 
     .LoaderWrapper > * {
@@ -173,8 +172,7 @@
         width: 100%;
 
         position: absolute;
-        top: 0;
-        left: 0;
+        inset: 0 auto auto 0;
 
         font-weight: 600;
         text-align: center;
