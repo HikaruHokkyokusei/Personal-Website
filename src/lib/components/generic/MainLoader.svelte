@@ -5,7 +5,6 @@
     export let ringThicknessEm: number = 1;
     export let ringGapEm: number = 1;
 
-    let ringRadius: number;
     $: ringRadius = sideLengthEm / 2;
 </script>
 
