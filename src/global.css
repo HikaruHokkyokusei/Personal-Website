@@ -31,6 +31,13 @@ body {
     scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
 }
 
+body * {
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
 ::-webkit-scrollbar {
     width: var(--scroll-bar-size);
     height: var(--scroll-bar-size);

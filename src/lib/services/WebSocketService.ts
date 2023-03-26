@@ -5,6 +5,10 @@ export class WebSocketService {
     private static _messageHandlers: { [name: string]: (data: any) => any };
 
     static connect = (originUrl: string, connectSuccess?: () => any) => {
+        if (this._socket != null && this._socket.readyState < WebSocket.CLOSING) {
+            this._socket.close(1000, "Creating new connection");
+        }
+
         this._socket = new WebSocket(`${originUrl}/ws/`);
 
         this._socket.onopen = () => {
@@ -12,6 +16,13 @@ export class WebSocketService {
             console.log(`WebSocket connection opened with -> ${originUrl}/ws/`);
             if (connectSuccess) {
                 connectSuccess();
+            }
+        };
+        this._socket.onmessage = (eventMessage) => {
+            const data = eventMessage.data;
+            const event = data["event"];
+            if (this._messageHandlers[event] != null) {
+                this._messageHandlers[event](data["data"]);
             }
         };
         this._socket.onerror = (event) => {
