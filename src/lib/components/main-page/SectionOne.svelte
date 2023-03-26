@@ -1,9 +1,11 @@
 <script lang="ts">
     import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import { personalData } from "$lib/configs/PersonalData.js";
     import { genericDataStore } from "$lib/stores/GenericDataStore.js";
+    import Animated5ColorBorderText from "$lib/components/generic/Animated5ColorBorderText.svelte";
 
     const vidHeight = 9, vidWidth = 16;
-    let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0;
+    let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0, endHolderHeight = 0;
 </script>
 
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
@@ -49,6 +51,25 @@
                         </div>
                     </div>
                 </div>
+
+                <Animated5ColorBorderText text="{personalData.firstName}"
+                                          holderStyle="grid-row: 6 / 7; grid-column: 3 / 4;">
+                </Animated5ColorBorderText>
+                <Animated5ColorBorderText text="{personalData.lastName}"
+                                          holderStyle="grid-row: 8 / 9; grid-column: 3 / 4;">
+                </Animated5ColorBorderText>
+
+                <div class="SOEndHolder" bind:clientHeight={endHolderHeight}>
+                    <div class="CenterRowFlex SOSliderTextWrapper SOEndTextWrapper"
+                         style="--end-holder-height: {endHolderHeight}">
+                        <ruby>
+                            で
+                            <rt>de</rt>
+                            &nbsp;ござる。
+                            <rt>Gozaru</rt>
+                        </ruby>
+                    </div>
+                </div>
             </div>
         </div>
     </svelte:fragment>
@@ -91,9 +112,12 @@
         --local-value: calc((var(--vid-width) * 5%) / var(--vid-height));
 
         display: grid;
-        grid-template:
-                6.5em var(--local-value) 0.25em var(--local-value) auto /
-                var(--s1-cw-gap) calc(var(--vid-width) * 0.86%) auto;
+        grid-template: calc(2.5 * var(--local-value))  var(--local-value)
+                0.27em var(--local-value)
+                1em calc(1.3 * var(--local-value))
+                0.25em calc(1.3 * var(--local-value))
+                1.4em var(--local-value)
+                auto / var(--s1-cw-gap) calc(var(--vid-width) * 0.86%) auto;
 
         overflow: auto;
     }
@@ -138,6 +162,21 @@
         font-size: calc(var(--i-am-slider-height) / 4 * 1px);
     }
 
+    .SOEndHolder {
+        grid-row: 10 / 11;
+        grid-column: 3 / 4;
+
+        overflow: hidden;
+    }
+
+    .SOEndTextWrapper {
+        height: 100%;
+
+        font-size: calc(var(--end-holder-height) / 2 * 1px);
+
+        animation: pulse-opacity 10s ease-in infinite;
+    }
+
     @keyframes slide-up-down {
         0% {
             transform: translateY(0%);
@@ -157,6 +196,28 @@
 
         100% {
             transform: translateY(0%);
+        }
+    }
+
+    @keyframes pulse-opacity {
+        0% {
+            opacity: 0;
+        }
+
+        45% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        95% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
         }
     }
 </style>
