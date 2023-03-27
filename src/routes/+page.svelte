@@ -1,20 +1,28 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { personalData } from "../lib/configs/PersonalData";
     import { genericDataStore } from "../lib/stores/GenericDataStore";
-    import SectionOne from "$lib/components/main-page/SectionOne.svelte";
-    import SectionTwo from "$lib/components/main-page/SectionTwo.svelte";
     import MainLoader from "$lib/components/generic/MainLoader.svelte";
+    import SectionOneV1 from "$lib/components/main-page/SectionOneV1.svelte";
+    import SectionOneV2 from "$lib/components/main-page/SectionOneV2.svelte";
+    import SectionTwo from "$lib/components/main-page/SectionTwo.svelte";
 
     let hideContent = true;
 
-    const videoLoading = () => {
+    const switchToLoader = () => {
         hideContent = true;
         $genericDataStore.showHamburger = false;
     };
-    const videoLoaded = () => {
+    const switchToContent = () => {
         hideContent = false;
         $genericDataStore.showHamburger = true;
     };
+
+    onMount(() => {
+        if ($genericDataStore.mainPageSectionOneVersion !== 1) {
+            switchToContent();
+        }
+    });
 </script>
 
 <svelte:head>
@@ -24,8 +32,13 @@
 {#if hideContent}
     <MainLoader ringGapEm="1.5"></MainLoader>
 {/if}
-<div class="MainPageWrapper" class:DisplayHidden={hideContent}>
-    <SectionOne on:videoLoading={videoLoading} on:videoLoaded={videoLoaded}></SectionOne>
+<div class="MainPageWrapper" class:MainPageContentHidden="{hideContent}">
+    {#if $genericDataStore.mainPageSectionOneVersion === 1}
+        <SectionOneV1 on:videoLoading={switchToLoader} on:videoLoaded={switchToContent}></SectionOneV1>
+    {:else}
+        <SectionOneV2></SectionOneV2>
+    {/if}
+
     <SectionTwo></SectionTwo>
 </div>
 
@@ -45,7 +58,7 @@
         --scroll-thumb-hover-image: linear-gradient(45deg, rgba(0, 175, 255, 0.9), rgba(166, 142, 255, 0.9));
     }
 
-    .DisplayHidden {
+    .MainPageContentHidden {
         display: none;
     }
 </style>
