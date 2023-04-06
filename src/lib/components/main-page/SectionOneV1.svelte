@@ -9,7 +9,7 @@
     let canPlayVideo = false;
 
     const vidHeight = 9, vidWidth = 16;
-    let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0, endHolderHeight = 0;
+    let mpSOHolderWidth = 0, greetSliderHeight = 0, iAmSliderHeight = 0, endHolderHeight = 0;
 
     const loadStarted = () => {
         if (!canPlayVideo) {
@@ -30,20 +30,20 @@
 
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
     <svelte:fragment>
-        <div class="MPSOHolder" bind:clientWidth={mpSOHolderWidth}
+        <div class="MPSOV1Holder" bind:clientWidth={mpSOHolderWidth}
              style="--vid-height: {vidHeight}; --vid-width: {vidWidth}; {matches ? 'height' : 'width' }: 100%;">
-            <video class="SOBgVideo" src="/videos/main-page-bg.webm" muted loop autoplay playsinline
+            <video class="SOV1BgVideo" src="/videos/main-page-bg.webm" muted loop autoplay playsinline
                    on:loadstart={loadStarted} on:loadeddata={loadCompleted}>
             </video>
-            <div class="SOVideoOverlay"
+            <div class="SOV1VideoOverlay"
                  style="--s1-cw-gap: {mpSOHolderWidth / 2}px; color: {$genericDataStore.theme.onBackground};">
-                <div class="SOGreetHolder">
-                    <div class="SOSlider" bind:clientHeight={greetSlideHeight}
-                         style="--greet-slider-height: {greetSlideHeight};">
-                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
+                <div class="SOV1GreetHolder">
+                    <div class="SOV1Slider" bind:clientHeight={greetSliderHeight}
+                         style="--greet-slider-height: {greetSliderHeight};">
+                        <div class="CenterRowFlex SOV1SliderTextWrapper SOV1GreetWrapper">
                             Bonjour Monsieur,
                         </div>
-                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
+                        <div class="CenterRowFlex SOV1SliderTextWrapper SOV1GreetWrapper">
                             <ruby>
                                 こんにちは
                                 <rt>Kon'nichiwa</rt>
@@ -55,13 +55,13 @@
                     </div>
                 </div>
 
-                <div class="SOIAmHolder">
-                    <div class="SOSlider" bind:clientHeight={iAmSlideHeight}
-                         style="--i-am-slider-height: {iAmSlideHeight};">
-                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                <div class="SOV1IAmHolder">
+                    <div class="SOV1Slider" bind:clientHeight={iAmSliderHeight}
+                         style="--i-am-slider-height: {iAmSliderHeight};">
+                        <div class="CenterRowFlex SOV1SliderTextWrapper SOV1IAmWrapper">
                             I am
                         </div>
-                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                        <div class="CenterRowFlex SOV1SliderTextWrapper SOV1IAmWrapper">
                             <ruby>
                                 拙者
                                 <rp>(</rp>
@@ -83,8 +83,8 @@
                                           holderStyle="grid-row: 8 / 9; grid-column: 3 / 4;">
                 </Animated5ColorBorderText>
 
-                <div class="SOEndHolder" bind:clientHeight={endHolderHeight}>
-                    <div class="CenterRowFlex SOSliderTextWrapper SOEndTextWrapper"
+                <div class="SOV1EndHolder" bind:clientHeight={endHolderHeight}>
+                    <div class="CenterRowFlex SOV1SliderTextWrapper SOV1EndTextWrapper"
                          style="--end-holder-height: {endHolderHeight}">
                         <ruby>
                             で
@@ -109,7 +109,7 @@
      * SO => Section One
     */
 
-    .MPSOHolder {
+    .MPSOV1Holder {
         /* Default values for the vars passed */
         --vid-height: 9;
         --vid-width: 16;
@@ -119,7 +119,7 @@
         position: relative;
     }
 
-    .SOBgVideo {
+    .SOV1BgVideo {
         width: 100%;
         height: 100%;
 
@@ -130,7 +130,7 @@
         pointer-events: none;
     }
 
-    .SOVideoOverlay {
+    .SOV1VideoOverlay {
         height: 100%;
         width: calc(100vw - var(--scroll-bar-size));
 
@@ -151,21 +151,21 @@
         overflow: auto;
     }
 
-    .SOGreetHolder {
+    .SOV1GreetHolder {
         grid-row: 2 / 3;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .SOSlider {
+    .SOV1Slider {
         height: 200%;
         width: 100%;
 
         animation: slide-up-down 10s linear infinite;
     }
 
-    .SOSliderTextWrapper {
+    .SOV1SliderTextWrapper {
         height: 50%;
         width: 100%;
 
@@ -176,29 +176,29 @@
         text-align: left;
     }
 
-    .GreetWrapper {
+    .SOV1GreetWrapper {
         font-size: calc(var(--greet-slider-height) / 4 * 1px);
     }
 
-    .SOIAmHolder {
+    .SOV1IAmHolder {
         grid-row: 4 / 5;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .IAmWrapper {
+    .SOV1IAmWrapper {
         font-size: calc(var(--i-am-slider-height) / 4 * 1px);
     }
 
-    .SOEndHolder {
+    .SOV1EndHolder {
         grid-row: 10 / 11;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .SOEndTextWrapper {
+    .SOV1EndTextWrapper {
         height: 100%;
 
         font-size: calc(var(--end-holder-height) / 2 * 1px);
