@@ -1,12 +1,14 @@
 <script lang="ts">
-
+    let wrapperHeight = 0, wrapperWidth = 0;
 </script>
 
 <svelte:head>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,400,700'/>
 </svelte:head>
 
-<div class="SOStarsWrapper">
+<!--suppress HtmlUnknownAttribute -->
+<div class="SOStarsWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
+     style:--wrapper-height="{wrapperHeight}" style:--wrapper-width="{wrapperWidth}">
     <div class="SOStars1"></div>
     <div class="SOStars2"></div>
     <div class="SOStars3"></div>
@@ -22,74 +24,88 @@
 
     /* n is number of stars required */
     @function multiple-box-shadow ($n) {
-        $value: '#{random(2000)}px #{random(2000)}px #FFF';
+        $value: 'calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
         @for $i from 2 through $n {
-            $value: '#{$value} , #{random(2000)}px #{random(2000)}px #FFF';
+            $value: '#{$value}, calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
         }
 
         @return unquote($value);
     }
 
-    $shadows-small: multiple-box-shadow(1000);
-    $shadows-medium: multiple-box-shadow(400);
-    $shadows-big: multiple-box-shadow(200);
+    $shadows-small: multiple-box-shadow(350);
+    $shadows-medium: multiple-box-shadow(250);
+    $shadows-big: multiple-box-shadow(125);
 
     .SOStarsWrapper {
-        width: 100%;
         height: 100%;
+        width: 100%;
+
         background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+
         overflow: hidden;
     }
 
     .SOStars1 {
-        width: 1px;
         height: 1px;
+        width: 1px;
+
         background: transparent;
         box-shadow: $shadows-small;
+
         animation: BackgroundStarAnimation 50s linear infinite;
 
         &:after {
             content: "";
-            position: absolute;
-            top: 2000px;
-            width: 1px;
             height: 1px;
+            width: 1px;
+
+            position: absolute;
+            top: calc(var(--wrapper-height) * 1px);
+
             background: transparent;
             box-shadow: $shadows-small;
         }
     }
 
     .SOStars2 {
-        width: 2px;
         height: 2px;
+        width: 2px;
+
         background: transparent;
         box-shadow: $shadows-medium;
-        animation: BackgroundStarAnimation 100s linear infinite;
+
+        animation: BackgroundStarAnimation 400s linear infinite reverse;
 
         &:after {
             content: "";
-            position: absolute;
-            top: 2000px;
-            width: 2px;
             height: 2px;
+            width: 2px;
+
+            position: absolute;
+            top: calc(var(--wrapper-height) * 1px);
+
             background: transparent;
             box-shadow: $shadows-medium;
         }
     }
 
     .SOStars3 {
-        width: 3px;
         height: 3px;
+        width: 3px;
+
         background: transparent;
         box-shadow: $shadows-big;
+
         animation: BackgroundStarAnimation 150s linear infinite;
 
         &:after {
             content: "";
-            position: absolute;
-            top: 2000px;
-            width: 3px;
             height: 3px;
+            width: 3px;
+
+            position: absolute;
+            top: calc(var(--wrapper-height) * 1px);
+
             background: transparent;
             box-shadow: $shadows-big;
         }
@@ -123,7 +139,7 @@
             transform: translateY(0px);
         }
         to {
-            transform: translateY(-2000px);
+            transform: translateY(calc(var(--wrapper-height) * -1px));
         }
     }
 </style>

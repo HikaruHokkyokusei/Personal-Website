@@ -2,10 +2,10 @@
     import { onMount } from "svelte";
     import { personalData } from "../lib/configs/PersonalData";
     import { genericDataStore } from "../lib/stores/GenericDataStore";
-    import MainLoader from "$lib/components/generic/MainLoader.svelte";
-    import SectionOneV1 from "$lib/components/main-page/SectionOneV1.svelte";
-    import SectionOneV2 from "$lib/components/main-page/SectionOneV2.svelte";
-    import SectionTwo from "$lib/components/main-page/SectionTwo.svelte";
+    import MainLoader from "../lib/components/generic/MainLoader.svelte";
+    import SectionOneV1 from "../lib/components/main-page/SectionOneV1.svelte";
+    import SectionOneV2 from "../lib/components/main-page/SectionOneV2.svelte";
+    import SectionTwo from "../lib/components/main-page/SectionTwo.svelte";
 
     let hideContent = true;
 
