@@ -41,7 +41,7 @@
                     <div class="SOV1Slider" bind:clientHeight={greetSliderHeight}
                          style="--greet-slider-height: {greetSliderHeight};">
                         <div class="CenterRowFlex SOV1SliderTextWrapper SOV1GreetWrapper">
-                            Bonjour Monsieur,
+                            Hello Monsieur,
                         </div>
                         <div class="CenterRowFlex SOV1SliderTextWrapper SOV1GreetWrapper">
                             <ruby>

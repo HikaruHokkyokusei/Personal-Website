@@ -1,145 +1,231 @@
 <script lang="ts">
+    import MediaQuery from "../../components/generic/MediaQuery.svelte";
+    import MovingStars from "../../components/generic/MovingStars.svelte";
+    import AnimatedColorWaveText from "../../components/generic/AnimatedColorWaveText.svelte";
+    import { personalData } from "../../configs/PersonalData";
+
     let wrapperHeight = 0, wrapperWidth = 0;
+    let greetSliderHeight = 0, iAmSliderHeight = 0, endHolderHeight = 0;
 </script>
 
 <svelte:head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,400,700'/>
 </svelte:head>
 
-<!--suppress HtmlUnknownAttribute -->
-<div class="SOStarsWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
-     style:--wrapper-height="{wrapperHeight}" style:--wrapper-width="{wrapperWidth}">
-    <div class="SOStars1"></div>
-    <div class="SOStars2"></div>
-    <div class="SOStars3"></div>
-    <div class="SOTitle">
-        <span>KON'NICHIWA</span>
-        <br/>
-        <span>GOJIN</span>
-    </div>
-</div>
+<MovingStars>
+    <MediaQuery query="only screen and (min-aspect-ratio: 1 / 1)" let:matches>
+        <div class="SOV2ContentWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
+             style:--font-base="{matches ? wrapperHeight : wrapperWidth}">
+            <div class="SOV2GreetHolder">
+                <div class="SOV2Slider" bind:clientHeight={greetSliderHeight}
+                     style="--greet-slider-height: {greetSliderHeight};">
+                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2GreetWrapper">
+                        <span>
+                            &nbsp;Hello Monsieur,
+                        </span>
+                    </div>
+                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2GreetWrapper">
+                        <span>
+                            &nbsp;
+                            <ruby>
+                                こんにちは
+                                <rt><span>Kon'nichiwa</span></rt>
+                                &nbsp;御仁
+                                <rt><span>Gojin</span></rt>
+                                、
+                            </ruby>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="SOV2IAmHolder">
+                <div class="SOV2Slider" bind:clientHeight={iAmSliderHeight}
+                     style="--i-am-slider-height: {iAmSliderHeight};">
+                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2IAmWrapper">
+                        <span>
+                            I am
+                        </span>
+                    </div>
+                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2IAmWrapper">
+                        <span>
+                            <ruby>
+                                拙者
+                                <rt><span>Sessha</span></rt>
+                                &nbsp;は
+                                <rt><span>wa</span></rt>
+                            </ruby>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="CenterRowFlex" style="grid-row: 5 / 6; grid-column: 1 / 2; opacity: 0.75;">
+                <AnimatedColorWaveText fontSizeEm="{(matches ? wrapperHeight : wrapperWidth) / 175}"
+                                       data="{personalData.firstName}">
+                </AnimatedColorWaveText>
+            </div>
+            <div class="CenterRowFlex" style="grid-row: 6 / 7; grid-column: 1 / 2; opacity: 0.75;">
+                <AnimatedColorWaveText fontSizeEm="{(matches ? wrapperHeight : wrapperWidth) / 175}"
+                                       data="{personalData.lastName}">
+                </AnimatedColorWaveText>
+            </div>
+
+            <div class="SOV2EndHolder" bind:clientHeight={endHolderHeight}>
+                <div class="CenterRowFlex SOV2SliderTextWrapper SOV2EndTextWrapper"
+                     style="--end-holder-height: {endHolderHeight}">
+                    <span>
+                        &nbsp;
+                        <ruby>
+                            で
+                            <rt><span>de</span></rt>
+                            &nbsp;ござる
+                            <rt><span>Gozaru</span></rt>
+                            。
+                        </ruby>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </MediaQuery>
+</MovingStars>
 
 <style lang="scss">
-    /* For JetBrains, install the sass plugin and enable the file writer to remove any IDE errors */
+    .SOV2ContentWrapper {
+        height: 100%;
 
-    /* n is number of stars required */
-    @function multiple-box-shadow ($n) {
-        $value: 'calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
-        @for $i from 2 through $n {
-            $value: '#{$value}, calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
-        }
+        margin: auto;
 
-        @return unquote($value);
+        display: grid;
+        grid-template: auto auto
+                       max(65px, 8%) max(65px, 8%)
+                       max(100px, 10%) max(100px, 10%)
+                       max(65px, 8%)
+                       auto auto / 100%;
+
+
+        font-family: "Noto Sans Mono", sans-serif;
     }
 
-    $shadows-small: multiple-box-shadow(350);
-    $shadows-medium: multiple-box-shadow(250);
-    $shadows-big: multiple-box-shadow(125);
-
-    .SOStarsWrapper {
+    .SOV2GreetHolder {
         height: 100%;
         width: 100%;
 
-        background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        grid-row: 3 / 4;
+        grid-column: 1 / 2;
 
         overflow: hidden;
     }
 
-    .SOStars1 {
-        height: 1px;
-        width: 1px;
+    .SOV2Slider {
+        height: 200%;
+        width: 100%;
 
-        background: transparent;
-        box-shadow: $shadows-small;
-
-        animation: BackgroundStarAnimation 50s linear infinite;
-
-        &:after {
-            content: "";
-            height: 1px;
-            width: 1px;
-
-            position: absolute;
-            top: calc(var(--wrapper-height) * 1px);
-
-            background: transparent;
-            box-shadow: $shadows-small;
-        }
+        animation: slide-up-down 10s linear infinite;
     }
 
-    .SOStars2 {
-        height: 2px;
-        width: 2px;
+    .SOV2SliderTextWrapper {
+        height: 50%;
+        width: 100%;
 
-        background: transparent;
-        box-shadow: $shadows-medium;
+        overflow: hidden;
 
-        animation: BackgroundStarAnimation 400s linear infinite reverse;
-
-        &:after {
-            content: "";
-            height: 2px;
-            width: 2px;
-
-            position: absolute;
-            top: calc(var(--wrapper-height) * 1px);
-
-            background: transparent;
-            box-shadow: $shadows-medium;
-        }
-    }
-
-    .SOStars3 {
-        height: 3px;
-        width: 3px;
-
-        background: transparent;
-        box-shadow: $shadows-big;
-
-        animation: BackgroundStarAnimation 150s linear infinite;
-
-        &:after {
-            content: "";
-            height: 3px;
-            width: 3px;
-
-            position: absolute;
-            top: calc(var(--wrapper-height) * 1px);
-
-            background: transparent;
-            box-shadow: $shadows-big;
-        }
-    }
-
-    .SOTitle {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-
-        color: #FFF;
         text-align: center;
-        font-family: 'lato', sans-serif;
-        font-weight: 300;
-        font-size: 50px;
-        letter-spacing: 10px;
+    }
 
-        margin-top: -60px;
-        padding-left: 10px;
+    .SOV2GreetWrapper {
+        font-size: calc(var(--font-base) / 22 * 1px);
+    }
 
-        span {
-            background: -webkit-linear-gradient(white, #38495a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+    .SOV2IAmHolder {
+        height: 100%;
+        width: 100%;
+
+        grid-row: 4 / 5;
+        grid-column: 1 / 2;
+
+        overflow: hidden;
+    }
+
+    .SOV2IAmWrapper {
+        font-size: calc(var(--font-base) / 22 * 1px);
+    }
+
+    .SOV2EndHolder {
+        height: 100%;
+        width: 100%;
+
+        grid-row: 7 / 8;
+        grid-column: 1 / 2;
+
+        overflow: hidden;
+    }
+
+    .SOV2EndTextWrapper {
+        height: 100%;
+
+        font-size: calc(var(--font-base) / 22 * 1px);
+
+        animation: pulse-opacity 10s linear infinite;
+    }
+
+    span {
+        background: -webkit-linear-gradient(white, #38495a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    ruby {
+        font-family: Meiryo, "Noto Serif JP", sans-serif;
+    }
+
+    ruby > rt {
+        font-family: "Noto Sans Mono", sans-serif;
+    }
+
+    @keyframes slide-up-down {
+        0% {
+            transform: translateY(0%);
+        }
+
+        45% {
+            transform: translateY(0%);
+        }
+
+        50% {
+            transform: translateY(-50%);
+        }
+
+        95% {
+            transform: translateY(-50%);
+        }
+
+        100% {
+            transform: translateY(0%);
         }
     }
 
-    @keyframes BackgroundStarAnimation {
-        from {
-            transform: translateY(0px);
+    @keyframes pulse-opacity {
+        0% {
+            opacity: 0;
         }
-        to {
-            transform: translateY(calc(var(--wrapper-height) * -1px));
+
+        45% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        95% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
         }
     }
 </style>

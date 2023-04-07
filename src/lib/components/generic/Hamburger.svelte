@@ -29,7 +29,6 @@
         z-index: 100;
 
         border-radius: calc(var(--hamburger-size) * 0.5em);
-        cursor: pointer;
 
         transition: 800ms width cubic-bezier(0.25, 0.8, 0.6, 1); /* https://cubic-bezier.com/ */
     }
