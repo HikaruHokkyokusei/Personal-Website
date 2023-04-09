@@ -11,7 +11,6 @@
 <svelte:head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,400,700'/>
 </svelte:head>
 
 <MovingStars>
@@ -137,7 +136,7 @@
     }
 
     .S1V2GreetWrapper {
-        font-size: calc(var(--font-base) / 22 * 1px);
+        font-size: calc(var(--font-base) / 366 * 1em);
     }
 
     .S1V2IAmHolder {
@@ -151,7 +150,7 @@
     }
 
     .S1V2IAmWrapper {
-        font-size: calc(var(--font-base) / 22 * 1px);
+        font-size: calc(var(--font-base) / 366 * 1em);
     }
 
     .S1V2EndHolder {
@@ -167,7 +166,7 @@
     .S1V2EndTextWrapper {
         height: 100%;
 
-        font-size: calc(var(--font-base) / 22 * 1px);
+        font-size: calc(var(--font-base) / 366 * 1em);
 
         animation: pulse-opacity 10s linear infinite;
     }
@@ -179,7 +178,7 @@
     }
 
     ruby {
-        font-family: Meiryo, "Noto Serif JP", sans-serif;
+        font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, メイリオ, Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", "Noto Sans CJK JP", TakaoPGothic, sans-serif;
     }
 
     ruby > rt {

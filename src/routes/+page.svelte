@@ -5,7 +5,7 @@
     import MainLoader from "../lib/components/generic/MainLoader.svelte";
     import Section1v1 from "../lib/components/main-page/Section1v1.svelte";
     import Section1v2 from "../lib/components/main-page/Section1v2.svelte";
-    import SectionTwo from "../lib/components/main-page/SectionTwo.svelte";
+    import Section2v1 from "../lib/components/main-page/Section2v1.svelte";
 
     let hideContent = true;
 
@@ -39,7 +39,7 @@
         <Section1v2></Section1v2>
     {/if}
 
-    <SectionTwo></SectionTwo>
+    <Section2v1></Section2v1>
 </div>
 
 <style>
