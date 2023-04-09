@@ -3,8 +3,8 @@
     import { onMount } from "svelte";
     import { WebSocketService } from "../lib/services/WebSocketService";
     import { genericDataStore } from "../lib/stores/GenericDataStore";
-    import MainLoader from "$lib/components/generic/MainLoader.svelte";
-    import Hamburger from "$lib/components/generic/Hamburger.svelte";
+    import MainLoader from "../lib/components/generic/MainLoader.svelte";
+    import Hamburger from "../lib/components/generic/Hamburger.svelte";
 
     let isLoading = true;
 

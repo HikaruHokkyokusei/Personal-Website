@@ -9,7 +9,6 @@
 </script>
 
 <div class="CenterRowFlex LoaderWrapper">
-    <!--suppress HtmlUnknownAttribute -->
     <div class="CenterColumnFlex LoaderRingHolder" style:--sideLength="{sideLengthEm}em"
          style:--tiltAngle="{tiltAngleDeg}deg" style:--rotationDuration="{rotationDurationS}s"
          style:--ringThickness="{ringThicknessEm}em" style:--ringRadius="{ringRadius}em"

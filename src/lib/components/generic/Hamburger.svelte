@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { genericDataStore } from "$lib/stores/GenericDataStore.js";
+    import { genericDataStore } from "../../stores/GenericDataStore.js";
 
     export let hamburgerSizeEm = 3;
 
@@ -29,7 +29,6 @@
         z-index: 100;
 
         border-radius: calc(var(--hamburger-size) * 0.5em);
-        cursor: pointer;
 
         transition: 800ms width cubic-bezier(0.25, 0.8, 0.6, 1); /* https://cubic-bezier.com/ */
     }

@@ -1,15 +1,15 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
-    import Animated5ColorBorderText from "$lib/components/generic/Animated5ColorBorderText.svelte";
-    import { personalData } from "$lib/configs/PersonalData.js";
-    import { genericDataStore } from "$lib/stores/GenericDataStore.js";
+    import MediaQuery from "../../components/generic/MediaQuery.svelte";
+    import Animated5ColorBorderText from "../../components/generic/Animated5ColorBorderText.svelte";
+    import { personalData } from "../../configs/PersonalData.js";
+    import { genericDataStore } from "../../stores/GenericDataStore.js";
 
     const dispatch = createEventDispatcher();
     let canPlayVideo = false;
 
     const vidHeight = 9, vidWidth = 16;
-    let mpSOHolderWidth = 0, greetSlideHeight = 0, iAmSlideHeight = 0, endHolderHeight = 0;
+    let mpSOHolderWidth = 0, greetSliderHeight = 0, iAmSliderHeight = 0, endHolderHeight = 0;
 
     const loadStarted = () => {
         if (!canPlayVideo) {
@@ -30,20 +30,20 @@
 
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
     <svelte:fragment>
-        <div class="MPSOHolder" bind:clientWidth={mpSOHolderWidth}
+        <div class="MPS1V1Holder" bind:clientWidth={mpSOHolderWidth}
              style="--vid-height: {vidHeight}; --vid-width: {vidWidth}; {matches ? 'height' : 'width' }: 100%;">
-            <video class="SOBgVideo" src="/videos/main-page-bg.webm" muted loop autoplay playsinline
+            <video class="S1V1BgVideo" src="/videos/main-page-bg.webm" muted loop autoplay playsinline
                    on:loadstart={loadStarted} on:loadeddata={loadCompleted}>
             </video>
-            <div class="SOVideoOverlay"
+            <div class="S1V1VideoOverlay"
                  style="--s1-cw-gap: {mpSOHolderWidth / 2}px; color: {$genericDataStore.theme.onBackground};">
-                <div class="SOGreetHolder">
-                    <div class="SOSlider" bind:clientHeight={greetSlideHeight}
-                         style="--greet-slider-height: {greetSlideHeight};">
-                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
-                            Bonjour Monsieur,
+                <div class="S1V1GreetHolder">
+                    <div class="S1V1Slider" bind:clientHeight={greetSliderHeight}
+                         style="--greet-slider-height: {greetSliderHeight};">
+                        <div class="CenterRowFlex S1V1SliderTextWrapper S1V1GreetWrapper">
+                            Hello Monsieur,
                         </div>
-                        <div class="CenterRowFlex SOSliderTextWrapper GreetWrapper">
+                        <div class="CenterRowFlex S1V1SliderTextWrapper S1V1GreetWrapper">
                             <ruby>
                                 こんにちは
                                 <rt>Kon'nichiwa</rt>
@@ -55,13 +55,13 @@
                     </div>
                 </div>
 
-                <div class="SOIAmHolder">
-                    <div class="SOSlider" bind:clientHeight={iAmSlideHeight}
-                         style="--i-am-slider-height: {iAmSlideHeight};">
-                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                <div class="S1V1IAmHolder">
+                    <div class="S1V1Slider" bind:clientHeight={iAmSliderHeight}
+                         style="--i-am-slider-height: {iAmSliderHeight};">
+                        <div class="CenterRowFlex S1V1SliderTextWrapper S1V1IAmWrapper">
                             I am
                         </div>
-                        <div class="CenterRowFlex SOSliderTextWrapper IAmWrapper">
+                        <div class="CenterRowFlex S1V1SliderTextWrapper S1V1IAmWrapper">
                             <ruby>
                                 拙者
                                 <rp>(</rp>
@@ -83,8 +83,8 @@
                                           holderStyle="grid-row: 8 / 9; grid-column: 3 / 4;">
                 </Animated5ColorBorderText>
 
-                <div class="SOEndHolder" bind:clientHeight={endHolderHeight}>
-                    <div class="CenterRowFlex SOSliderTextWrapper SOEndTextWrapper"
+                <div class="S1V1EndHolder" bind:clientHeight={endHolderHeight}>
+                    <div class="CenterRowFlex S1V1SliderTextWrapper S1V1EndTextWrapper"
                          style="--end-holder-height: {endHolderHeight}">
                         <ruby>
                             で
@@ -109,7 +109,7 @@
      * SO => Section One
     */
 
-    .MPSOHolder {
+    .MPS1V1Holder {
         /* Default values for the vars passed */
         --vid-height: 9;
         --vid-width: 16;
@@ -119,7 +119,7 @@
         position: relative;
     }
 
-    .SOBgVideo {
+    .S1V1BgVideo {
         width: 100%;
         height: 100%;
 
@@ -130,7 +130,7 @@
         pointer-events: none;
     }
 
-    .SOVideoOverlay {
+    .S1V1VideoOverlay {
         height: 100%;
         width: calc(100vw - var(--scroll-bar-size));
 
@@ -151,21 +151,21 @@
         overflow: auto;
     }
 
-    .SOGreetHolder {
+    .S1V1GreetHolder {
         grid-row: 2 / 3;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .SOSlider {
+    .S1V1Slider {
         height: 200%;
         width: 100%;
 
         animation: slide-up-down 10s linear infinite;
     }
 
-    .SOSliderTextWrapper {
+    .S1V1SliderTextWrapper {
         height: 50%;
         width: 100%;
 
@@ -176,29 +176,29 @@
         text-align: left;
     }
 
-    .GreetWrapper {
+    .S1V1GreetWrapper {
         font-size: calc(var(--greet-slider-height) / 4 * 1px);
     }
 
-    .SOIAmHolder {
+    .S1V1IAmHolder {
         grid-row: 4 / 5;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .IAmWrapper {
+    .S1V1IAmWrapper {
         font-size: calc(var(--i-am-slider-height) / 4 * 1px);
     }
 
-    .SOEndHolder {
+    .S1V1EndHolder {
         grid-row: 10 / 11;
         grid-column: 3 / 4;
 
         overflow: hidden;
     }
 
-    .SOEndTextWrapper {
+    .S1V1EndTextWrapper {
         height: 100%;
 
         font-size: calc(var(--end-holder-height) / 2 * 1px);
