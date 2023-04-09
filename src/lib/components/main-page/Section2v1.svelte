@@ -55,21 +55,27 @@
         <div style="height: 30px; width: 100%;"></div>
 
         <MediaQuery query="(min-width: 1650px)" let:matches>
-            <div class="S2V1ContentHolder" style:width="{matches ? '60%' : '100%'}">
-                <div class="CenterRowFlex" style:width="{matches ? '50%' : '100%'}">
+            <div class="S2V1ContentHolder" style:width="{matches ? '72.5%' : '100%'}">
+                <div class="CenterRowFlex" style:width="{matches ? '45%' : '100%'}">
                     <img src="/images/profile-pic-ganyu.png" alt="Ganyu" style="width: 400px; height: 400px;"
                          height="2278" width="2278">
                 </div>
                 {#if !matches}
-                    <div style="height: 25px; width: 100%;"></div>
+                    <div style="height: 50px; width: 100%;"></div>
                 {/if}
-                <div class="CenterRowFlex" style:width="{matches ? '50%' : '100%'}">
+                <div class="CenterRowFlex" style:width="{matches ? '55%' : '100%'}">
                     <div class="CenterRowFlex S2V1AboutContent">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        I am a highly experienced software developer, possessing a diverse set of skills that enable me
+                        to create innovative and efficient solutions for any project.
+                        <br><br>
+                        My expertise extends to a wide range of programming languages, frameworks and
+                        libraries, allowing me to tackle any challenge with ease. Additionally, I have extensive
+                        experience working with the AWS Cloud platform and Networking, empowering me to develop scalable
+                        and reliable applications that meet the needs of modern businesses and end-users alike.
+                        <br><br>
+                        My exceptional analytical and problem-solving skills, combined with my ability to work
+                        independently or as part of a team, make me an ideal candidate for any software development
+                        role.
                     </div>
                 </div>
             </div>
@@ -112,7 +118,7 @@
     .S2V1AboutContent {
         width: 85%;
 
-        font-size: 1.75rem;
+        font-size: 1.6rem;
         text-align: justify;
     }
 </style>
