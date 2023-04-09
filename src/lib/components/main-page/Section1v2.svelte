@@ -15,18 +15,19 @@
 </svelte:head>
 
 <MovingStars>
-    <MediaQuery query="only screen and (min-aspect-ratio: 1 / 1)" let:matches>
-        <div class="SOV2ContentWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
-             style:--font-base="{matches ? wrapperHeight : wrapperWidth}">
-            <div class="SOV2GreetHolder">
-                <div class="SOV2Slider" bind:clientHeight={greetSliderHeight}
+    <MediaQuery query="only screen and (min-aspect-ratio: 8 / 10)" let:matches>
+        <div class="S1V2ContentWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
+             style:--font-base="{matches ? wrapperHeight : wrapperWidth}"
+             style:font-weight="{matches ? 500 : 800}">
+            <div class="S1V2GreetHolder">
+                <div class="S1V2Slider" bind:clientHeight={greetSliderHeight}
                      style="--greet-slider-height: {greetSliderHeight};">
-                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2GreetWrapper">
+                    <div class="CenterRowFlex S1V2SliderTextWrapper S1V2GreetWrapper">
                         <span>
                             &nbsp;Hello Monsieur,
                         </span>
                     </div>
-                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2GreetWrapper">
+                    <div class="CenterRowFlex S1V2SliderTextWrapper S1V2GreetWrapper">
                         <span>
                             &nbsp;
                             <ruby>
@@ -41,15 +42,15 @@
                 </div>
             </div>
 
-            <div class="SOV2IAmHolder">
-                <div class="SOV2Slider" bind:clientHeight={iAmSliderHeight}
+            <div class="S1V2IAmHolder">
+                <div class="S1V2Slider" bind:clientHeight={iAmSliderHeight}
                      style="--i-am-slider-height: {iAmSliderHeight};">
-                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2IAmWrapper">
+                    <div class="CenterRowFlex S1V2SliderTextWrapper S1V2IAmWrapper">
                         <span>
                             I am
                         </span>
                     </div>
-                    <div class="CenterRowFlex SOV2SliderTextWrapper SOV2IAmWrapper">
+                    <div class="CenterRowFlex S1V2SliderTextWrapper S1V2IAmWrapper">
                         <span>
                             <ruby>
                                 拙者
@@ -73,8 +74,8 @@
                 </AnimatedColorWaveText>
             </div>
 
-            <div class="SOV2EndHolder" bind:clientHeight={endHolderHeight}>
-                <div class="CenterRowFlex SOV2SliderTextWrapper SOV2EndTextWrapper"
+            <div class="S1V2EndHolder" bind:clientHeight={endHolderHeight}>
+                <div class="CenterRowFlex S1V2SliderTextWrapper S1V2EndTextWrapper"
                      style="--end-holder-height: {endHolderHeight}">
                     <span>
                         &nbsp;
@@ -93,7 +94,7 @@
 </MovingStars>
 
 <style lang="scss">
-    .SOV2ContentWrapper {
+    .S1V2ContentWrapper {
         height: 100%;
 
         margin: auto;
@@ -109,7 +110,7 @@
         font-family: "Noto Sans Mono", sans-serif;
     }
 
-    .SOV2GreetHolder {
+    .S1V2GreetHolder {
         height: 100%;
         width: 100%;
 
@@ -119,14 +120,14 @@
         overflow: hidden;
     }
 
-    .SOV2Slider {
+    .S1V2Slider {
         height: 200%;
         width: 100%;
 
         animation: slide-up-down 10s linear infinite;
     }
 
-    .SOV2SliderTextWrapper {
+    .S1V2SliderTextWrapper {
         height: 50%;
         width: 100%;
 
@@ -135,11 +136,11 @@
         text-align: center;
     }
 
-    .SOV2GreetWrapper {
+    .S1V2GreetWrapper {
         font-size: calc(var(--font-base) / 22 * 1px);
     }
 
-    .SOV2IAmHolder {
+    .S1V2IAmHolder {
         height: 100%;
         width: 100%;
 
@@ -149,11 +150,11 @@
         overflow: hidden;
     }
 
-    .SOV2IAmWrapper {
+    .S1V2IAmWrapper {
         font-size: calc(var(--font-base) / 22 * 1px);
     }
 
-    .SOV2EndHolder {
+    .S1V2EndHolder {
         height: 100%;
         width: 100%;
 
@@ -163,7 +164,7 @@
         overflow: hidden;
     }
 
-    .SOV2EndTextWrapper {
+    .S1V2EndTextWrapper {
         height: 100%;
 
         font-size: calc(var(--font-base) / 22 * 1px);

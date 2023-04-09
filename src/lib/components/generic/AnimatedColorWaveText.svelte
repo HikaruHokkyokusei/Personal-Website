@@ -16,6 +16,7 @@
         -webkit-text-fill-color: transparent;
 
         background: url(/images/animated-text-fill.png) repeat-y;
+        background-size: cover;
         -webkit-background-clip: text;
         background-clip: text;
 

@@ -35,7 +35,7 @@
         height: 100%;
         width: 100%;
 
-        background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+        background: radial-gradient(ellipse at bottom, #1f2c3b 0%, #090A0F 60%, #080a10 100%);
 
         overflow: hidden;
     }

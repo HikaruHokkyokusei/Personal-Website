@@ -3,8 +3,8 @@
     import { personalData } from "../lib/configs/PersonalData";
     import { genericDataStore } from "../lib/stores/GenericDataStore";
     import MainLoader from "../lib/components/generic/MainLoader.svelte";
-    import SectionOneV1 from "../lib/components/main-page/SectionOneV1.svelte";
-    import SectionOneV2 from "../lib/components/main-page/SectionOneV2.svelte";
+    import Section1v1 from "../lib/components/main-page/Section1v1.svelte";
+    import Section1v2 from "../lib/components/main-page/Section1v2.svelte";
     import SectionTwo from "../lib/components/main-page/SectionTwo.svelte";
 
     let hideContent = true;
@@ -34,9 +34,9 @@
 {/if}
 <div class="MainPageWrapper" class:MainPageContentHidden="{hideContent}">
     {#if $genericDataStore.mainPageSectionOneVersion === 1}
-        <SectionOneV1 on:videoLoading={switchToLoader} on:videoLoaded={switchToContent}></SectionOneV1>
+        <Section1v1 on:videoLoading={switchToLoader} on:videoLoaded={switchToContent}></Section1v1>
     {:else}
-        <SectionOneV2></SectionOneV2>
+        <Section1v2></Section1v2>
     {/if}
 
     <SectionTwo></SectionTwo>
