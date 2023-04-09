@@ -5,5 +5,7 @@ import { Themes } from "../configs/Themes";
 
 export const genericDataStore: Writable<GenericData> = writable({
     "themeName": "dark",
-    "theme": Themes["dark"]
+    "theme": Themes["dark"],
+    "showHamburger": false,
+    mainPageSectionOneVersion: 2
 });

@@ -5,12 +5,10 @@
     export let ringThicknessEm: number = 1;
     export let ringGapEm: number = 1;
 
-    let ringRadius: number;
     $: ringRadius = sideLengthEm / 2;
 </script>
 
 <div class="CenterRowFlex LoaderWrapper">
-    <!--suppress HtmlUnknownAttribute -->
     <div class="CenterColumnFlex LoaderRingHolder" style:--sideLength="{sideLengthEm}em"
          style:--tiltAngle="{tiltAngleDeg}deg" style:--rotationDuration="{rotationDurationS}s"
          style:--ringThickness="{ringThicknessEm}em" style:--ringRadius="{ringRadius}em"
