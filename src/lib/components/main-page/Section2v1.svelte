@@ -54,16 +54,17 @@
 
         <div style="height: 30px; width: 100%;"></div>
 
-        <MediaQuery query="(min-width: 1650px)" let:matches>
-            <div class="S2V1ContentHolder" style:width="{matches ? '72.5%' : '100%'}">
-                <div class="CenterRowFlex" style:width="{matches ? '45%' : '100%'}">
+        <MediaQuery query="(min-width: 1600px)" let:matches>
+            <div class="S2V1ContentHolder" style:width="{matches ? '80%' : '100%'}">
+                <div class="CenterRowFlex S2V1ImageHolder" style:justify-content="{matches ? 'flex-end' : 'center'}"
+                     style:width="{matches ? '35%' : '100%'}">
                     <img src="/images/profile-pic-ganyu.png" alt="Ganyu" style="width: 400px; height: 400px;"
                          height="2278" width="2278">
                 </div>
                 {#if !matches}
                     <div style="height: 50px; width: 100%;"></div>
                 {/if}
-                <div class="CenterRowFlex" style:width="{matches ? '55%' : '100%'}">
+                <div class="CenterRowFlex" style:width="{matches ? '65%' : '100%'}">
                     <div class="CenterRowFlex S2V1AboutContent">
                         I am a highly experienced software developer, possessing a diverse set of skills that enable me
                         to create innovative and efficient solutions for any project.
@@ -107,7 +108,7 @@
 
     .S2V1ContentHolder {
         width: 100%;
-        max-width: 1500px;
+        max-width: 1650px;
 
         margin: 0 auto;
 
@@ -115,10 +116,16 @@
         flex-wrap: wrap;
     }
 
+    .S2V1ImageHolder {
+        min-width: 440px;
+
+        padding: 0 20px;
+    }
+
     .S2V1AboutContent {
         width: 85%;
 
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         text-align: justify;
     }
 </style>
