@@ -11,18 +11,6 @@
         easing: linear
     });
 
-    const switchTitleText = async () => {
-        await titleOpacity.set(0);
-
-        if (titleTextType === "en") {
-            titleTextType = "jp";
-        } else {
-            titleTextType = "en";
-        }
-
-        await titleOpacity.set(1);
-    }
-
     onMount(() => {
         setTimeout(() => {
             switchTitleText();
@@ -33,6 +21,18 @@
             clearInterval(intervalId);
         };
     });
+
+    const switchTitleText = async () => {
+        await titleOpacity.set(0);
+
+        if (titleTextType === "en") {
+            titleTextType = "jp";
+        } else {
+            titleTextType = "en";
+        }
+
+        await titleOpacity.set(1);
+    };
 </script>
 
 <section id="about">

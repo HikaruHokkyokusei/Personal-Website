@@ -23,11 +23,6 @@
     };
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
-</svelte:head>
-
 <MediaQuery query="only screen and (min-aspect-ratio: {vidWidth} / {vidHeight})" let:matches>
     <svelte:fragment>
         <div class="MPS1V1Holder" bind:clientWidth={mpSOHolderWidth}
