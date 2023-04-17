@@ -97,8 +97,12 @@
                         ctx[0].raw.title,
                         `${startDate} - ${endDate}`
                     ];
+                },
+                label: (ctx) => {
+                    return null;
                 }
-            }
+            },
+            displayColors: false
         }
     };
 
