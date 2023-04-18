@@ -69,7 +69,7 @@
                 ctx.restore();
 
                 ctx.font = "bold 12px sans-serif";
-                ctx.fillStyle = "rgba(255,129,0,0.4)";
+                ctx.fillStyle = "rgba(255,129,0,0.66)";
                 ctx.textAlign = "center";
                 ctx.fillText("Today", xPos, top - 5);
                 ctx.restore();
@@ -137,6 +137,7 @@
                         color: "rgba(191, 255, 169, 0.15)"
                     },
                     ticks: {
+                        color: "rgba(255, 255, 255, 0.4)",
                         padding: 15,
                         font: {
                             size: 15,
@@ -153,9 +154,9 @@
                     },
                     position: "left",
                     ticks: {
+                        color: "rgba(255, 255, 255, 0.4)",
                         font: {
-                            size: 20,
-                            weight: "bold"
+                            size: 20
                         }
                     }
                 },
@@ -168,9 +169,9 @@
                     },
                     position: "right",
                     ticks: {
+                        color: "rgba(255, 255, 255, 0.4)",
                         font: {
-                            size: 20,
-                            weight: "bold"
+                            size: 20
                         }
                     }
                 }
@@ -239,7 +240,7 @@
         width: 75%;
         aspect-ratio: 20 / 5;
 
-        background: #002a26;
+        background: rgba(46, 58, 58, 0.33);
 
         padding: 25px;
         border-radius: 25px;
