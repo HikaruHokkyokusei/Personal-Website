@@ -35,7 +35,13 @@
         height: 100%;
         width: 100%;
 
-        background: radial-gradient(ellipse at bottom, #1f2c3b 0%, #090A0F 60%, #080a10 100%);
+        background: linear-gradient(
+                        transparent 20%,
+                        rgba(136, 72, 180, 0.36) 60%,
+                        rgba(126, 57, 124, 0.66) 75%,
+                        rgba(215, 121, 139, 0.75) 100%
+        ),
+        radial-gradient(ellipse at bottom, #1f2c3b 0%, #090A0F 60%, #080a10 100%);
 
         overflow: hidden;
     }

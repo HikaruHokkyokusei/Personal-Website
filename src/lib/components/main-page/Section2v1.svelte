@@ -3,12 +3,26 @@
     import { linear } from "svelte/easing";
     import { onMount } from "svelte";
     import MediaQuery from "../../components/generic/MediaQuery.svelte";
+    import { genericDataStore } from "../../stores/GenericDataStore";
+
+    let wrapperHeight, wrapperWidth;
 
     let intervalId;
     let titleTextType: "en" | "jp" = "en";
     let titleOpacity = tweened(1, {
         duration: 500,
         easing: linear
+    });
+
+    onMount(() => {
+        setTimeout(() => {
+            switchTitleText();
+            intervalId = setInterval(switchTitleText, 5000);
+        }, 4500);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     });
 
     const switchTitleText = async () => {
@@ -21,78 +35,103 @@
         }
 
         await titleOpacity.set(1);
-    }
-
-    onMount(() => {
-        setTimeout(() => {
-            switchTitleText();
-            intervalId = setInterval(switchTitleText, 5000);
-        }, 4500);
-
-        return () => {
-            clearInterval(intervalId);
-        };
-    });
+    };
 </script>
 
 <section id="about">
-    <div class="S2V1Wrapper">
-        <div class="CenterRowFlex S2V1TitleHolder" style:opacity="{$titleOpacity}">
-            {#if titleTextType === "en"}
-                About me
-            {:else}
-                <ruby style="font-size: 2.55rem">
-                    吾輩
-                    <rt>&hairsp;Wagahai</rt>
-                    &nbsp;に
-                    <rt>&nbsp;&thinsp;ni</rt>
-                    &nbsp;ついて
-                    <rt>&thinsp;&thinsp;tsuite</rt>
-                </ruby>
-            {/if}
-        </div>
+    <div class="S2V1Wrapper" style:--bg-color="#26212c" style:color="#ADD8E6"
+         bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}>
+        <div class="S2V1WrapperPattern" style="height: {wrapperHeight}px; width: {wrapperWidth}px;"></div>
 
-        <div style="height: 30px; width: 100%;"></div>
-
-        <MediaQuery query="(min-width: 1650px)" let:matches>
-            <div class="S2V1ContentHolder" style:width="{matches ? '72.5%' : '100%'}">
-                <div class="CenterRowFlex" style:width="{matches ? '45%' : '100%'}">
-                    <img src="/images/profile-pic-ganyu.png" alt="Ganyu" style="width: 400px; height: 400px;"
-                         height="2278" width="2278">
-                </div>
-                {#if !matches}
-                    <div style="height: 50px; width: 100%;"></div>
+        <div class="S2V1Container">
+            <div class="CenterRowFlex S2V1TitleHolder" style:opacity="{$titleOpacity}">
+                {#if titleTextType === "en"}
+                    About me
+                {:else}
+                    <ruby style="font-size: 2.55rem">
+                        吾輩
+                        <rt>&hairsp;Wagahai</rt>
+                        &nbsp;に
+                        <rt>&nbsp;&thinsp;ni</rt>
+                        &nbsp;ついて
+                        <rt>&thinsp;&thinsp;tsuite</rt>
+                    </ruby>
                 {/if}
-                <div class="CenterRowFlex" style:width="{matches ? '55%' : '100%'}">
-                    <div class="CenterRowFlex S2V1AboutContent">
-                        I am a highly experienced software developer, possessing a diverse set of skills that enable me
-                        to create innovative and efficient solutions for any project.
-                        <br><br>
-                        My expertise extends to a wide range of programming languages, frameworks and
-                        libraries, allowing me to tackle any challenge with ease. Additionally, I have extensive
-                        experience working with the AWS Cloud platform and Networking, empowering me to develop scalable
-                        and reliable applications that meet the needs of modern businesses and end-users alike.
-                        <br><br>
-                        My exceptional analytical and problem-solving skills, combined with my ability to work
-                        independently or as part of a team, make me an ideal candidate for any software development
-                        role.
+            </div>
+
+            <div style="height: 30px; width: 100%;"></div>
+
+            <MediaQuery query="(min-width: 1600px)" let:matches>
+                <div class="S2V1ContentHolder" style:width="{matches ? '80%' : '100%'}">
+                    <div class="CenterRowFlex S2V1ImageHolder" style:justify-content="{matches ? 'flex-end' : 'center'}"
+                         style:width="{matches ? '35%' : '100%'}">
+                        <img src="/images/profile-pic-ganyu.png" alt="Ganyu" style="width: 400px; height: 400px;"
+                             height="2278" width="2278">
+                    </div>
+                    {#if !matches}
+                        <div style="height: 50px; width: 100%;"></div>
+                    {/if}
+                    <div class="CenterRowFlex" style:width="{matches ? '65%' : '100%'}">
+                        <div class="CenterRowFlex S2V1AboutContent">
+                            I am a highly experienced software developer, possessing a diverse set of skills that enable
+                            me
+                            to create innovative and efficient solutions for any project.
+                            <br><br>
+                            My expertise extends to a wide range of programming languages, frameworks and
+                            libraries, allowing me to tackle any challenge with ease. Additionally, I have extensive
+                            experience working with the AWS Cloud platform and Networking, empowering me to develop
+                            scalable
+                            and reliable applications that meet the needs of modern businesses and end-users alike.
+                            <br><br>
+                            My exceptional analytical and problem-solving skills, combined with my ability to work
+                            independently or as part of a team, make me an ideal candidate for any software development
+                            role.
+                        </div>
                     </div>
                 </div>
-            </div>
-        </MediaQuery>
+            </MediaQuery>
 
-        <div style="height: 80px; width: 100%;"></div>
+            <div class="Spacer" style:background-color="{$genericDataStore.theme.background}"></div>
+        </div>
     </div>
 </section>
 
 <style>
+    #about {
+        --bg-color: #26212c;
+    }
+
     .S2V1Wrapper {
         height: fit-content;
         width: 100%;
 
-        background: radial-gradient(ellipse at top, #1d2a3a 0%, #091023 100%);
+        position: relative;
+        z-index: 1;
+
+        background-color: var(--bg-color);
+        background-size: 100% 175%;
 
         --font-base: 0;
+    }
+
+    .S2V1WrapperPattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+
+        opacity: 0.05;
+
+        background: url("/images/diamond-pattern.jpg") center repeat-x;
+        background-size: auto 100%;
+    }
+
+    .S2V1ContentHolder {
+        height: fit-content;
+        width: 100%;
+
+        position: relative;
+        z-index: 3;
     }
 
     .S2V1TitleHolder {
@@ -107,7 +146,7 @@
 
     .S2V1ContentHolder {
         width: 100%;
-        max-width: 1500px;
+        max-width: 1650px;
 
         margin: 0 auto;
 
@@ -115,10 +154,34 @@
         flex-wrap: wrap;
     }
 
+    .S2V1ImageHolder {
+        min-width: 440px;
+
+        padding: 0 20px;
+    }
+
     .S2V1AboutContent {
         width: 85%;
 
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         text-align: justify;
+    }
+
+    .Spacer {
+        width: 100%;
+        aspect-ratio: 1000 / 80;
+
+        position: relative;
+        z-index: 4;
+
+        mask-image: url("/images/wave-haikei.svg");
+        -webkit-mask-image: url("/images/wave-haikei.svg");
+
+        mask-repeat: no-repeat;
+        -webkit-mask-repeat: no-repeat;
+        mask-position: top;
+        -webkit-mask-position: top;
+        mask-size: cover;
+        -webkit-mask-size: cover;
     }
 </style>
