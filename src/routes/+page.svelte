@@ -6,6 +6,7 @@
     import Section1v1 from "../lib/components/main-page/Section1v1.svelte";
     import Section1v2 from "../lib/components/main-page/Section1v2.svelte";
     import Section2v1 from "../lib/components/main-page/Section2v1.svelte";
+    import Section3v1 from "../lib/components/main-page/Section3v1.svelte";
 
     let hideContent = true;
 
@@ -27,6 +28,8 @@
 
 <svelte:head>
     <title>{`${personalData.firstName} ${personalData.lastName}`}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
 </svelte:head>
 
 {#if hideContent}
@@ -40,6 +43,8 @@
     {/if}
 
     <Section2v1></Section2v1>
+
+    <Section3v1></Section3v1>
 </div>
 
 <style>

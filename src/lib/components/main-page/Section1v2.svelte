@@ -8,11 +8,6 @@
     let greetSliderHeight = 0, iAmSliderHeight = 0, endHolderHeight = 0;
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"/>
-</svelte:head>
-
 <MovingStars>
     <MediaQuery query="only screen and (min-aspect-ratio: 8 / 10)" let:matches>
         <div class="S1V2ContentWrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}
