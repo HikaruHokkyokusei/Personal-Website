@@ -3,6 +3,7 @@
     import { linear } from "svelte/easing";
     import { onMount } from "svelte";
     import MediaQuery from "../../components/generic/MediaQuery.svelte";
+    import { genericDataStore } from "../../stores/GenericDataStore";
 
     let wrapperHeight, wrapperWidth;
 
@@ -90,7 +91,7 @@
                 </div>
             </MediaQuery>
 
-            <div style="height: 80px; width: 100%;"></div>
+            <div class="Spacer" style:background-color="{$genericDataStore.theme.background}"></div>
         </div>
     </div>
 </section>
@@ -164,5 +165,23 @@
 
         font-size: 1.5rem;
         text-align: justify;
+    }
+
+    .Spacer {
+        width: 100%;
+        aspect-ratio: 1000 / 80;
+
+        position: relative;
+        z-index: 4;
+
+        mask-image: url("/images/wave-haikei.svg");
+        -webkit-mask-image: url("/images/wave-haikei.svg");
+
+        mask-repeat: no-repeat;
+        -webkit-mask-repeat: no-repeat;
+        mask-position: top;
+        -webkit-mask-position: top;
+        mask-size: cover;
+        -webkit-mask-size: cover;
     }
 </style>

@@ -5,6 +5,7 @@
     import MediaQuery from "../../components/generic/MediaQuery.svelte";
     import { RenderChartOnCanvas } from "../../services/ChartJsService";
     import { OdysseyMythos } from "../../configs/OdysseyMythos";
+    import { genericDataStore } from "../../stores/GenericDataStore";
 
     let intervalId;
     let titleTextType: "en" | "jp" = "en";
@@ -36,10 +37,11 @@
         await titleOpacity.set(1);
     };
 
+    // noinspection JSUnusedGlobalSymbols
     const chartPlugins = {
         todayLine: {
             id: "todayLine",
-            afterDatasetsDraw: (chart, args, pluginOptions) => {
+            afterDatasetsDraw: (chart) => {
                 const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
                 const xPos = x.getPixelForValue(new Date());
 
@@ -76,6 +78,7 @@
             }
         }
     };
+    // noinspection JSUnusedGlobalSymbols
     const optionsPlugins = {
         tooltip: {
             callbacks: {
@@ -98,7 +101,7 @@
                         `${startDate} - ${endDate}`
                     ];
                 },
-                label: (ctx) => {
+                label: () => {
                     return null;
                 }
             },
@@ -182,7 +185,7 @@
 </script>
 
 <section id="chronicles">
-    <div class="S3V1Wrapper">
+    <div class="S3V1Wrapper" style:color="{$genericDataStore.theme.onBackground}">
         <div class="CenterRowFlex S3V1TitleHolder" style:opacity="{$titleOpacity}">
             {#if titleTextType === "en"}
                 My odyssey's mythos
@@ -217,13 +220,11 @@
         height: fit-content;
         width: 100%;
 
-        background: radial-gradient(ellipse at top, #1d2a3a 0%, #091023 100%);
-
         --font-base: 0;
     }
 
     .S3V1TitleHolder {
-        height: 125px;
+        height: 100px;
         width: 100%;
 
         overflow: hidden;
@@ -240,7 +241,7 @@
         width: 75%;
         aspect-ratio: 20 / 5;
 
-        background: rgba(46, 58, 58, 0.33);
+        background: rgba(75, 50, 125, 0.50);
 
         padding: 25px;
         border-radius: 25px;
