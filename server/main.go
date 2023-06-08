@@ -17,9 +17,10 @@ import (
 )
 
 var (
-	envName        string
-	portNumber     string
-	allowedOrigins string
+	envName         string
+	portNumber      string
+	allowedOrigins  string
+	enableRouteLogs string
 )
 
 func getEnv(key string, defaultValue string) string {
@@ -36,7 +37,7 @@ func createFiberApp() *fiber.App {
 		//DisableDefaultContentType: true,
 		//EnablePrintRoutes: true,
 	})
-	if val := getEnv("enableRouteLogs", "false"); val == "true" {
+	if enableRouteLogs == "true" {
 		app.Use(logger.New())
 	}
 
@@ -87,6 +88,7 @@ func init() {
 	envName = getEnv("EnvName", "prd")
 	portNumber = getEnv("PORT", "6969")
 	allowedOrigins = getEnv("AllowedOrigins", "")
+	enableRouteLogs = getEnv("enableRouteLogs", "false")
 }
 
 func main() {
