@@ -2,7 +2,7 @@ export class WebSocketService {
     private static _isConnected: boolean = false;
     private static _socket: WebSocket;
 
-    private static _messageHandlers: { [name: string]: (data: any) => any };
+    private static _messageHandlers: { [name: string]: (data: any) => any } = {};
 
     static connect = (originUrl: string, connectSuccess?: () => any) => {
         if (this._socket != null && this._socket.readyState < WebSocket.CLOSING) {
@@ -19,10 +19,10 @@ export class WebSocketService {
             }
         };
         this._socket.onmessage = (eventMessage) => {
-            const data = eventMessage.data;
-            const event = data["event"];
+            const body = JSON.parse(eventMessage.data);
+            const event = body["event"];
             if (this._messageHandlers[event] != null) {
-                this._messageHandlers[event](data["data"]);
+                this._messageHandlers[event](body["data"]);
             }
         };
         this._socket.onerror = (event) => {
@@ -52,4 +52,15 @@ export class WebSocketService {
 
         return success;
     };
+
+    static unregisterHandler = (event: string) => {
+        if (this._messageHandlers.hasOwnProperty(event)) {
+            delete this._messageHandlers[event];
+        }
+    };
+
+    static registerHandler = (event: string, handler: (data: any) => any) => {
+        this.unregisterHandler(event);
+        this._messageHandlers[event] = handler;
+    }
 }
