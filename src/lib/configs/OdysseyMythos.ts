@@ -11,7 +11,7 @@ export const OdysseyMythos = {
     datasets: [
         {
             data: [
-                { x: ["2019-06-25", "2023-05-01"], y: "Education", title: "KIIT D. University", content: "" }
+                { x: ["2019-06-25", "2023-06-01"], y: "Education", title: "KIIT D. University", content: "" }
             ],
             backgroundColor: "rgb(253, 98, 131, 0.45)",
             borderColor: "rgb(253, 98, 131, 1)",

@@ -91,6 +91,7 @@
                 </div>
             </MediaQuery>
 
+            <div style="height: 75px;"></div>
             <div class="Spacer" style:background-color="{$genericDataStore.theme.background}"></div>
         </div>
     </div>
