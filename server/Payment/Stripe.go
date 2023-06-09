@@ -17,24 +17,27 @@ type Item struct {
 	Amount int64  `json:"amount"`
 }
 type PaymentIntent struct {
-	clientSecret string
-	items        []Item
-	netAmount    int64
+	clientSecret  string
+	items         []Item
+	amount        int64
+	processingFee int64
+	netAmount     int64
 }
 
+var processingFeePercent int64 = 3
 var activePayments = map[string]PaymentIntent{}
 var products map[string]int64
 
-func calculateOrderAmount(items []Item) int64 {
+func calculateOrderAmount(items []Item) (int64, int64) {
 	var amount int64 = 0
 	for _, item := range items {
 		amount += item.Amount * products[item.Id]
 	}
-	return amount
+	return amount, (amount * 100) / (100 - processingFeePercent)
 }
 
 func createNewPaymentIntent(items []Item) (bool, string) {
-	var netAmount = calculateOrderAmount(items)
+	var amount, netAmount = calculateOrderAmount(items)
 
 	if pi, err := paymentintent.New(&stripe.PaymentIntentParams{
 		Amount:   stripe.Int64(netAmount),
@@ -45,9 +48,11 @@ func createNewPaymentIntent(items []Item) (bool, string) {
 	}); err == nil {
 		var paymentId = b64.StdEncoding.EncodeToString([]byte(uuid.New().String() + "-" + uuid.New().String()))
 		activePayments[paymentId] = PaymentIntent{
-			clientSecret: pi.ClientSecret,
-			items:        items,
-			netAmount:    netAmount,
+			clientSecret:  pi.ClientSecret,
+			items:         items,
+			amount:        amount,
+			processingFee: netAmount - amount,
+			netAmount:     netAmount,
 		}
 		return true, paymentId
 	} else {
@@ -93,6 +98,7 @@ func ConfigurePaymentEndpoints(server fiber.Router, stripePublicKey string, stri
 				"publicKey":    stripePublicKey,
 				"clientSecret": paymentIntent.clientSecret,
 				"items":        paymentIntent.items,
+				"netAmount":    paymentIntent.netAmount,
 			}); err == nil {
 				return ctx.SendString(string(outputData))
 			} else {
