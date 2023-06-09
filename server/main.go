@@ -7,6 +7,7 @@ import (
 	re "regexp"
 	"time"
 
+	PS "Server/Payment"
 	WS "Server/WebSocket"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,10 +18,12 @@ import (
 )
 
 var (
-	envName         string
-	portNumber      string
-	allowedOrigins  string
-	enableRouteLogs string
+	envName          string
+	portNumber       string
+	allowedOrigins   string
+	enableRouteLogs  string
+	stripePublicKey  string
+	stripePrivateKey string
 )
 
 func getEnv(key string, defaultValue string) string {
@@ -73,7 +76,8 @@ func configureFiberApp(app *fiber.App) {
 	})
 	app.Get("/metrics", monitor.New())
 
-	WS.ConfigureWebsocket(app)
+	WS.ConfigureWebsocket(app.Group("/ws"))
+	PS.ConfigurePaymentEndpoints(app.Group("/payment"), stripePublicKey, stripePrivateKey)
 
 	app.Static("/", "./../build", fiber.Static{
 		Index: "index.html",
@@ -88,7 +92,9 @@ func init() {
 	envName = getEnv("EnvName", "prd")
 	portNumber = getEnv("PORT", "6969")
 	allowedOrigins = getEnv("AllowedOrigins", "")
-	enableRouteLogs = getEnv("enableRouteLogs", "false")
+	enableRouteLogs = getEnv("EnableRouteLogs", "false")
+	stripePrivateKey = getEnv("StripePrivateKey", "")
+	stripePublicKey = getEnv("StripePublicKey", "")
 }
 
 func main() {
