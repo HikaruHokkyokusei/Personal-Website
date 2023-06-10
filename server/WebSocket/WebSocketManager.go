@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/websocket/v2"
 	"github.com/google/uuid"
 )
 
@@ -18,10 +18,15 @@ type ConnectedWsClient struct {
 	mutex sync.Mutex
 	conn  *websocket.Conn
 }
+
+type GenericWsMessage struct {
+	Event string          `json:"event"`
+	Data  json.RawMessage `json:"data"`
+}
+
 type WsClientMessage struct {
-	uid   string
-	event string
-	data  any
+	cliId string
+	msg   GenericWsMessage
 }
 
 var (
@@ -50,33 +55,44 @@ func runClientHandler() {
 	}
 }
 
+func sendMessage(uid string, message GenericWsMessage) {
+	if payload, err := json.Marshal(message); err == nil {
+		if err := connectedClients[uid].conn.WriteMessage(websocket.TextMessage, payload); err != nil {
+			panic(err)
+		}
+	} else {
+		panic(err)
+	}
+}
+
 func handleWsClientMessage(wsClientMessage WsClientMessage) {
-	var clientData, ok = connectedClients[wsClientMessage.uid]
+	var clientData, ok = connectedClients[wsClientMessage.cliId]
 	if ok {
 		clientData.mutex.Lock()
 		defer func() {
-			var clientData, ok = connectedClients[wsClientMessage.uid]
+			var clientData, ok = connectedClients[wsClientMessage.cliId]
 			if ok {
 				clientData.mutex.Unlock()
 			}
 		}()
 
-		switch wsClientMessage.event {
+		switch wsClientMessage.msg.Event {
 		}
 	}
 }
 
-func ConfigureWebsocket(server *fiber.App) {
-	server.Use("/ws", func(ctx *fiber.Ctx) error {
+func ConfigureWebsocket(app fiber.Router) {
+	app.Use("/", func(ctx *fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(ctx) {
+			ctx.Locals("allowed", true)
 			return ctx.Next()
 		}
-		return ctx.SendStatus(fiber.StatusUpgradeRequired)
+		return fiber.ErrUpgradeRequired
 	})
 
 	go runClientHandler()
 
-	server.Get("/ws", websocket.New(func(conn *websocket.Conn) {
+	app.Get("/", websocket.New(func(conn *websocket.Conn) {
 		var uid = uuid.New().String() + "-" + uuid.New().String()
 		registerClient <- WsClientData{uid, conn}
 
@@ -97,23 +113,22 @@ func ConfigureWebsocket(server *fiber.App) {
 		var (
 			msg  []byte
 			err  error
-			temp map[string]any
+			temp GenericWsMessage
 		)
 		for {
-			if _, msg, err = conn.ReadMessage(); err != nil {
+			if _, msg, err = conn.ReadMessage(); err == nil {
+				temp = GenericWsMessage{}
+				if err := json.Unmarshal(msg, &temp); err == nil {
+					clientMessages <- WsClientMessage{uid, temp}
+				} else {
+					fmt.Println("Error when parsing the websocket message")
+				}
+			} else {
 				if !isCloseMessage {
 					fmt.Println("Error when reading the message:", err)
 				}
 				break
 			}
-
-			temp = make(map[string]any)
-			var err = json.Unmarshal(msg, &temp)
-			if err != nil {
-				fmt.Println("Error when parsing the websocket message")
-				continue
-			}
-			clientMessages <- WsClientMessage{uid, temp["event"].(string), temp["data"]}
 		}
 	}))
 }
