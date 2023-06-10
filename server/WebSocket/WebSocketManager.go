@@ -81,8 +81,8 @@ func handleWsClientMessage(wsClientMessage WsClientMessage) {
 	}
 }
 
-func ConfigureWebsocket(app *fiber.App) {
-	app.Use("/ws", func(ctx *fiber.Ctx) error {
+func ConfigureWebsocket(app fiber.Router) {
+	app.Use("/", func(ctx *fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(ctx) {
 			ctx.Locals("allowed", true)
 			return ctx.Next()
@@ -92,7 +92,7 @@ func ConfigureWebsocket(app *fiber.App) {
 
 	go runClientHandler()
 
-	app.Get("/ws", websocket.New(func(conn *websocket.Conn) {
+	app.Get("/", websocket.New(func(conn *websocket.Conn) {
 		var uid = uuid.New().String() + "-" + uuid.New().String()
 		registerClient <- WsClientData{uid, conn}
 

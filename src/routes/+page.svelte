@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { personalData } from "../lib/configs/PersonalData";
-    import { genericDataStore } from "../lib/stores/GenericDataStore";
-    import MainLoader from "../lib/components/generic/MainLoader.svelte";
-    import Section1v1 from "../lib/components/main-page/Section1v1.svelte";
-    import Section1v2 from "../lib/components/main-page/Section1v2.svelte";
-    import Section2v1 from "../lib/components/main-page/Section2v1.svelte";
-    import Section3v1 from "../lib/components/main-page/Section3v1.svelte";
+    import { personalData } from "$lib/configs/PersonalData";
+    import { genericDataStore } from "$lib/stores/GenericDataStore";
+    import MainLoader from "$lib/components/generic/MainLoader.svelte";
+    import Section1v1 from "$lib/components/main-page/Section1v1.svelte";
+    import Section1v2 from "$lib/components/main-page/Section1v2.svelte";
+    import Section2v1 from "$lib/components/main-page/Section2v1.svelte";
+    import Section3v1 from "$lib/components/main-page/Section3v1.svelte";
 
     let hideContent = true;
 

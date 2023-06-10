@@ -6,6 +6,7 @@ require (
 	github.com/gofiber/contrib/websocket v1.0.0
 	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/google/uuid v1.3.0
+	github.com/stripe/stripe-go/v74 v74.21.0
 )
 
 require (
