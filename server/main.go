@@ -90,7 +90,7 @@ func configureFiberApp(app *fiber.App) {
 func init() {
 	fmt.Println("こんにちは　世界...")
 	envName = getEnv("EnvName", "prd")
-	portNumber = getEnv("PORT", "6969")
+	portNumber = getEnv("PORT", "42069")
 	allowedOrigins = getEnv("AllowedOrigins", "")
 	enableRouteLogs = getEnv("EnableRouteLogs", "false")
 	stripePrivateKey = getEnv("StripePrivateKey", "")

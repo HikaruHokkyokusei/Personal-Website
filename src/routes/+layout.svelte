@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { PUBLIC_SERVER_LOCATION_ORIGIN } from "$env/static/public";
     import "../global.css";
     import { onMount } from "svelte";
     import { WebSocketService } from "$lib/services/WebSocketService";
@@ -9,9 +10,7 @@
     let isLoading = true;
 
     onMount(async () => {
-        const websiteOrigin = document.location.origin.replace(/localhost:[0-9]{4,}$/, "localhost:6969");
-
-        const res = await fetch(`${websiteOrigin}/healthCheck`);
+        const res = await fetch(`${PUBLIC_SERVER_LOCATION_ORIGIN}/healthCheck`);
         let showValue = "❌", showError = null;
         try {
             if (new TextDecoder().decode((await res.body.getReader().read()).value).toLowerCase() === "ok") {
@@ -23,11 +22,11 @@
         console.log(`Health Check: ${showValue}`);
         if (showError) {
             console.log(showError);
+        } else {
+            WebSocketService.connect(PUBLIC_SERVER_LOCATION_ORIGIN.replace(/^http/, "ws"), () => {
+                isLoading = false;
+            });
         }
-
-        WebSocketService.connect(websiteOrigin.replace(/^http/, "ws"), async () => {
-            isLoading = false;
-        });
     });
 </script>
 
