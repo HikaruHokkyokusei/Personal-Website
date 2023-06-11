@@ -1,5 +1,4 @@
 ARG PORT
-ARG PUBLIC_SERVER_LOCATION_ORIGIN
 
 
 FROM node:18-alpine AS node-base
@@ -36,6 +35,7 @@ RUN rmdir /personal-website-temp
 
 
 FROM copy-code-and-files as build-node-app
+ARG PUBLIC_SERVER_LOCATION_ORIGIN
 ENV NODE_ENV=production
 ENV PUBLIC_SERVER_LOCATION_ORIGIN=${PUBLIC_SERVER_LOCATION_ORIGIN}
 RUN pnpm run svelte:build
