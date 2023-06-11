@@ -18,12 +18,12 @@ import (
 )
 
 var (
-	envName          string
-	portNumber       string
-	allowedOrigins   string
-	enableRouteLogs  string
-	stripePublicKey  string
-	stripePrivateKey string
+	envName             string
+	portNumber          string
+	allowedOriginsRegex string
+	enableRouteLogs     string
+	stripePublicKey     string
+	stripePrivateKey    string
 )
 
 func getEnv(key string, defaultValue string) string {
@@ -45,10 +45,17 @@ func createFiberApp() *fiber.App {
 	}
 
 	if envName == "dev" {
-		allowedOrigins = "http://localhost:5173, https://localhost:5173, http://127.0.0.1:5173, https://127.0.0.1:5173"
+		allowedOriginsRegex = "(http|ws)s?:[/]{2}(www[.])?(localhost|127[.]0[.]0[.]1):[0-9]{4,5}"
 	}
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: allowedOrigins,
+		AllowOriginsFunc: func(origin string) bool {
+			if matches, err := re.MatchString(allowedOriginsRegex, origin); err == nil {
+				return matches
+			} else {
+				return false
+			}
+		},
+		AllowOrigins: "",
 	}))
 
 	app.Use(cache.New(cache.Config{
@@ -91,7 +98,7 @@ func init() {
 	fmt.Println("こんにちは　世界...")
 	envName = getEnv("EnvName", "prd")
 	portNumber = getEnv("PORT", "42069")
-	allowedOrigins = getEnv("AllowedOrigins", "")
+	allowedOriginsRegex = getEnv("AllowedOriginsRegEx", "")
 	enableRouteLogs = getEnv("EnableRouteLogs", "false")
 	stripePrivateKey = getEnv("StripePrivateKey", "")
 	stripePublicKey = getEnv("StripePublicKey", "")
