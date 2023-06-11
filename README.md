@@ -93,9 +93,9 @@ variables [below](#environment-variables-setup) for customizations.
             <td><code>42069</code></td>
         </tr>
         <tr>
-            <td><code>AllowedOrigins</code></td>
-            <td><code>string</code></td>
-            <td><code>http://localhost:5173, http://127.0.0.1:5173, ws://localhost:5173, ws://127.0.0.1:5173</code></td>
+            <td><code>AllowedOriginsRegEx</code></td>
+            <td><code>RegEx</code></td>
+            <td><code>(http|ws)s?:[/]{2}(www[.])?(localhost|127[.]0[.]0[.]1):[0-9]{4,5}</code></td>
         </tr>
         <tr>
             <td><code>StripePublicKey</code></td>
