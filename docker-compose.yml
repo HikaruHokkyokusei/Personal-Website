@@ -3,12 +3,13 @@
 version: "3.8"
 services:
   personal-website:
-    image: personal-website-image:${DOCKER_VERSION_TAG}
+    image: personal-website-image
     build:
       context: .
       dockerfile: Dockerfile
       args:
         PORT: ${PORT}
+        PUBLIC_SERVER_LOCATION_ORIGIN: ${PUBLIC_SERVER_LOCATION_ORIGIN}
     container_name: personal-website-container
     ports:
       - "${PORT}:${PORT}/tcp"
