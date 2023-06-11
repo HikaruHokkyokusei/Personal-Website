@@ -83,6 +83,11 @@ variables [below](#environment-variables-setup) for customizations.
             <td><code>dev</code></td>
         </tr>
         <tr>
+            <td><code>EnableRouteLogs</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+        </tr>
+        <tr>
             <td><code>PORT</code></td>
             <td><code>number</code></td>
             <td><code>42069</code></td>
@@ -91,11 +96,6 @@ variables [below](#environment-variables-setup) for customizations.
             <td><code>AllowedOrigins</code></td>
             <td><code>string</code></td>
             <td><code>http://localhost:5173, http://127.0.0.1:5173, ws://localhost:5173, ws://127.0.0.1:5173</code></td>
-        </tr>
-        <tr>
-            <td><code>EnableRouteLogs</code></td>
-            <td><code>boolean</code></td>
-            <td><code>true</code></td>
         </tr>
         <tr>
             <td><code>StripePublicKey</code></td>
