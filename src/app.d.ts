@@ -8,12 +8,18 @@ declare global {
         // interface Locals {}
         // interface PageData {}
         // interface Platform {}
+        interface IStripe {
+            [key: string]: any
+        }
     }
 
+    // noinspection JSUnusedGlobalSymbols
     interface Window {
         ethereum: any;
         web3: Web3;
     }
+
+    const Stripe: (string) => App.IStripe;
 }
 
 export {};
