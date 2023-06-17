@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
     import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
     import { RenderChartOnCanvas } from "$lib/services/ChartJsService";
-    import { OdysseyMythos } from "$lib/configs/OdysseyMythos";
+    import { generateOdysseyMythosChartConfigs } from "$lib/configs/OdysseyMythos";
     import { genericDataStore } from "$lib/stores/GenericDataStore";
 
     let intervalId;
@@ -36,152 +36,6 @@
 
         await titleOpacity.set(1);
     };
-
-    // noinspection JSUnusedGlobalSymbols
-    const chartPlugins = {
-        todayLine: {
-            id: "todayLine",
-            afterDatasetsDraw: (chart) => {
-                const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-                const xPos = x.getPixelForValue(new Date());
-
-                ctx.save();
-
-                ctx.beginPath();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "rgba(255,129,0,0.4)";
-                ctx.setLineDash([6, 6]);
-                ctx.moveTo(xPos, top);
-                ctx.lineTo(xPos, bottom);
-                ctx.stroke();
-                ctx.restore();
-
-                ctx.setLineDash([]);
-
-                ctx.beginPath();
-                ctx.lineWidth = 1;
-                ctx.strokeStyle = "rgba(255,129,0,0.4)";
-                ctx.fillStyle = "rgba(255,129,0,0.4)";
-                ctx.moveTo(xPos, bottom + 5);
-                ctx.lineTo(xPos - 6, bottom + 20);
-                ctx.lineTo(xPos + 6, bottom + 20);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.fill();
-                ctx.restore();
-
-                ctx.font = "bold 12px sans-serif";
-                ctx.fillStyle = "rgba(255,129,0,0.66)";
-                ctx.textAlign = "center";
-                ctx.fillText("Today", xPos, top - 5);
-                ctx.restore();
-            }
-        }
-    };
-    // noinspection JSUnusedGlobalSymbols
-    const optionsPlugins = {
-        tooltip: {
-            callbacks: {
-                title: (ctx) => {
-                    const startDate = new Date(ctx[0].raw.x[0]).toLocaleString([], {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour12: true
-                    });
-                    const endDate = new Date(ctx[0].raw.x[1]).toLocaleString([], {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour12: true
-                    });
-
-                    return [
-                        ctx[0].raw.title,
-                        `${startDate} - ${endDate}`
-                    ];
-                },
-                label: () => {
-                    return null;
-                }
-            },
-            displayColors: false
-        }
-    };
-
-    const chartConfigs = {
-        type: "bar",
-        data: OdysseyMythos,
-        options: {
-            indexAxis: "y",
-            layout: {
-                padding: {
-                    top: 20
-                }
-            },
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: optionsPlugins["tooltip"]
-            },
-            scales: {
-                x: {
-                    min: "2019-04-01",
-                    max: ((dt: Date) => {
-                        return `${dt.getUTCFullYear() + 1}-01-01`;
-                    })(new Date(Date.now())),
-                    type: "time",
-                    time: {
-                        unit: "quarter"
-                    },
-                    grid: {
-                        color: "rgba(191, 255, 169, 0.15)"
-                    },
-                    ticks: {
-                        color: "rgba(255, 255, 255, 0.4)",
-                        padding: 15,
-                        font: {
-                            size: 15,
-                            weight: "bold"
-                        }
-                    }
-                },
-                y: {
-                    labels: ["Education", "Freelancing", "Job"],
-                    min: 0,
-                    max: 2,
-                    grid: {
-                        display: false
-                    },
-                    position: "left",
-                    ticks: {
-                        color: "rgba(255, 255, 255, 0.4)",
-                        font: {
-                            size: 20
-                        }
-                    }
-                },
-                y2: {
-                    labels: ["Education", "Freelancing", "Job"],
-                    min: 0,
-                    max: 2,
-                    grid: {
-                        display: false
-                    },
-                    position: "right",
-                    ticks: {
-                        color: "rgba(255, 255, 255, 0.4)",
-                        font: {
-                            size: 20
-                        }
-                    }
-                }
-            }
-        },
-        plugins: [chartPlugins["todayLine"]]
-    };
 </script>
 
 <section id="chronicles">
@@ -203,10 +57,14 @@
 
         <div style="height: 30px; width: 100%;"></div>
 
-        <MediaQuery query="(min-width: 1600px)" let:matches>
+        <MediaQuery query="only screen and (min-aspect-ratio: 20 / 17)" let:matches>
             <div class="CenterRowFlex TimelineWrapper">
-                <div class="TimelineCanvasHolder">
-                    <canvas use:RenderChartOnCanvas={chartConfigs}></canvas>
+                <div class="TimelineCanvasHolder" style="height: {matches ? '450px' : '1000px'}; width: 85%">
+                    {#if matches}
+                        <canvas use:RenderChartOnCanvas={generateOdysseyMythosChartConfigs("Horizontal")}></canvas>
+                    {:else}
+                        <canvas use:RenderChartOnCanvas={generateOdysseyMythosChartConfigs("Vertical")}></canvas>
+                    {/if}
                 </div>
             </div>
         </MediaQuery>
@@ -235,12 +93,10 @@
 
     .TimelineWrapper {
         width: 100%;
+        min-width: 550px;
     }
 
     .TimelineCanvasHolder {
-        width: 75%;
-        aspect-ratio: 20 / 5;
-
         background: rgba(75, 50, 125, 0.50);
 
         padding: 25px;
