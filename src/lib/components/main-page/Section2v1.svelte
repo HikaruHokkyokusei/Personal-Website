@@ -2,8 +2,8 @@
     import { tweened } from "svelte/motion";
     import { linear } from "svelte/easing";
     import { onMount } from "svelte";
-    import MediaQuery from "../../components/generic/MediaQuery.svelte";
-    import { genericDataStore } from "../../stores/GenericDataStore";
+    import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import { genericDataStore } from "$lib/stores/GenericDataStore";
 
     let wrapperHeight, wrapperWidth;
 

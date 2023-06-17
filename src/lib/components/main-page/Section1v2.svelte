@@ -1,8 +1,8 @@
 <script lang="ts">
-    import MediaQuery from "../../components/generic/MediaQuery.svelte";
-    import MovingStars from "../../components/generic/MovingStars.svelte";
-    import AnimatedColorWaveText from "../../components/generic/AnimatedColorWaveText.svelte";
-    import { personalData } from "../../configs/PersonalData";
+    import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import MovingStars from "$lib/components/generic/MovingStars.svelte";
+    import AnimatedColorWaveText from "$lib/components/generic/AnimatedColorWaveText.svelte";
+    import { personalData } from "$lib/configs/PersonalData";
 
     let wrapperHeight = 0, wrapperWidth = 0;
     let greetSliderHeight = 0, iAmSliderHeight = 0, endHolderHeight = 0;

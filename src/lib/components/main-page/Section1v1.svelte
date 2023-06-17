@@ -1,9 +1,9 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import MediaQuery from "../../components/generic/MediaQuery.svelte";
-    import Animated5ColorBorderText from "../../components/generic/Animated5ColorBorderText.svelte";
-    import { personalData } from "../../configs/PersonalData.js";
-    import { genericDataStore } from "../../stores/GenericDataStore.js";
+    import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import Animated5ColorBorderText from "$lib/components/generic/Animated5ColorBorderText.svelte";
+    import { personalData } from "$lib/configs/PersonalData.js";
+    import { genericDataStore } from "$lib/stores/GenericDataStore.js";
 
     const dispatch = createEventDispatcher();
     let canPlayVideo = false;

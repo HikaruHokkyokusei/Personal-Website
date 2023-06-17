@@ -2,10 +2,10 @@
     import { tweened } from "svelte/motion";
     import { linear } from "svelte/easing";
     import { onMount } from "svelte";
-    import MediaQuery from "../../components/generic/MediaQuery.svelte";
-    import { RenderChartOnCanvas } from "../../services/ChartJsService";
-    import { OdysseyMythos } from "../../configs/OdysseyMythos";
-    import { genericDataStore } from "../../stores/GenericDataStore";
+    import MediaQuery from "$lib/components/generic/MediaQuery.svelte";
+    import { RenderChartOnCanvas } from "$lib/services/ChartJsService";
+    import { OdysseyMythos } from "$lib/configs/OdysseyMythos";
+    import { genericDataStore } from "$lib/stores/GenericDataStore";
 
     let intervalId;
     let titleTextType: "en" | "jp" = "en";

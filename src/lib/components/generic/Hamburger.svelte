@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { genericDataStore } from "../../stores/GenericDataStore.js";
+    import { genericDataStore } from "$lib/stores/GenericDataStore";
 
     export let hamburgerSizeEm = 3;
 
