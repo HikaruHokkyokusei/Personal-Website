@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 	re "regexp"
 	"time"
 
 	PS "Server/Payment"
+	"Server/Utils"
 	WS "Server/WebSocket"
 
 	"github.com/gofiber/fiber/v2"
@@ -26,19 +26,11 @@ var (
 	stripePrivateKey    string
 )
 
-func getEnv(key string, defaultValue string) string {
-	if value, isPresent := os.LookupEnv(key); isPresent {
-		return value
-	} else {
-		return defaultValue
-	}
-}
-
 func createFiberApp() *fiber.App {
 	var app = fiber.New(fiber.Config{
 		CaseSensitive: true,
-		//DisableDefaultContentType: true,
-		//EnablePrintRoutes: true,
+		// DisableDefaultContentType: true,
+		// EnablePrintRoutes: true,
 	})
 	if enableRouteLogs == "true" {
 		app.Use(logger.New())
@@ -96,12 +88,12 @@ func configureFiberApp(app *fiber.App) {
 
 func init() {
 	fmt.Println("こんにちは　世界...")
-	envName = getEnv("EnvName", "prd")
-	portNumber = getEnv("PORT", "42069")
-	allowedOriginsRegex = getEnv("AllowedOriginsRegEx", "")
-	enableRouteLogs = getEnv("EnableRouteLogs", "false")
-	stripePrivateKey = getEnv("StripePrivateKey", "")
-	stripePublicKey = getEnv("StripePublicKey", "")
+	envName = Utils.GetDefaultEnv("EnvName", "prd")
+	portNumber = Utils.GetDefaultEnv("PORT", "42069")
+	allowedOriginsRegex = Utils.GetDefaultEnv("AllowedOriginsRegEx", "")
+	enableRouteLogs = Utils.GetDefaultEnv("EnableRouteLogs", "false")
+	stripePrivateKey = Utils.GetDefaultEnv("StripePrivateKey", "")
+	stripePublicKey = Utils.GetDefaultEnv("StripePublicKey", "")
 }
 
 func main() {

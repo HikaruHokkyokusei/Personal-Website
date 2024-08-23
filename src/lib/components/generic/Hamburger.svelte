@@ -11,7 +11,8 @@
 
 <div class="CenterRowFlex HamburgerHolder" class:HamburgerHover={isHovering}
      on:mouseenter={() => setHover(true)} on:mouseleave={() => {setHover(false)}}
-     style="--hamburger-size: {hamburgerSizeEm}; background: {$genericDataStore.theme.primary};">
+     style="--hamburger-size: {hamburgerSizeEm}; background: {$genericDataStore.theme.primary};" role="menu"
+     tabindex="0">
     {#if isHovering}
         <!--        TODO: Fill options here...-->
     {:else}

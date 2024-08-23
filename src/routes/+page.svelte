@@ -33,7 +33,7 @@
 </svelte:head>
 
 {#if hideContent}
-    <MainLoader ringGapEm="1.5"></MainLoader>
+    <MainLoader ringGapEm={1.5}></MainLoader>
 {/if}
 <div class="MainPageWrapper" class:MainPageContentHidden="{hideContent}">
     {#if $genericDataStore.mainPageSectionOneVersion === 1}

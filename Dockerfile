@@ -1,13 +1,12 @@
 ARG PORT
 
 
-FROM node:18-alpine AS node-base
+FROM node:22-alpine AS node-base
 WORKDIR /personal-website
 RUN apk upgrade
-RUN npm install -g --upgrade pnpm
 
 
-FROM golang:1.20.2-alpine3.17 AS go-base
+FROM golang:1.23-alpine AS go-base
 WORKDIR /personal-website
 
 
@@ -25,7 +24,7 @@ COPY --from=install-go-deps-and-build /personal-website/main .
 FROM get-go-exec as install-node-deps
 WORKDIR /personal-website
 COPY ./package.json .
-RUN pnpm install
+RUN npm install
 
 
 FROM install-node-deps as copy-code-and-files
@@ -38,8 +37,8 @@ FROM copy-code-and-files as build-node-app
 ARG PUBLIC_SERVER_LOCATION_ORIGIN
 ENV NODE_ENV=production
 ENV PUBLIC_SERVER_LOCATION_ORIGIN=${PUBLIC_SERVER_LOCATION_ORIGIN}
-RUN pnpm run svelte:build
-RUN pnpm prune --prod
+RUN npm run svelte:build
+RUN npm prune --omit=dev
 
 
 FROM build-node-app as final

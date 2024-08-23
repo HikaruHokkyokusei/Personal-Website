@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 /.fleet
 /Temp/
 pnpm-lock.yaml
+package-lock.json

@@ -16,11 +16,9 @@
 
 <style lang="scss">
     /* For JetBrains, install the sass plugin and enable the file writer to remove any IDE errors */
-
-    /* n is number of stars required */
-    @function multiple-box-shadow ($n) {
+    @function multiple-box-shadow ($starsCount) {
         $value: 'calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
-        @for $i from 2 through $n {
+        @for $i from 2 through $starsCount {
             $value: '#{$value}, calc(var(--wrapper-width) * #{random(10000)} / 10000 * 1px) calc(var(--wrapper-height) * #{random(10000)} / 10000 * 1px) #FFF';
         }
 
