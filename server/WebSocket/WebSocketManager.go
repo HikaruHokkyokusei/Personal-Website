@@ -81,6 +81,46 @@ func handleWsClientMessage(wsClientMessage WsClientMessage) {
 	}
 }
 
+func websocketMessageHandler(conn *websocket.Conn) {
+	var uid = uuid.New().String() + "-" + uuid.New().String()
+	registerClient <- WsClientData{uid, conn}
+
+	defer func() {
+		unregisterClient <- uid
+		var err = conn.Close()
+		if err != nil {
+			fmt.Printf("[websocketMessageHandler]: Error trying to close connection for client: %s", uid)
+		}
+	}()
+
+	var isCloseMessage = false
+	conn.SetCloseHandler(func(code int, text string) error {
+		isCloseMessage = true
+		return nil
+	})
+
+	var (
+		msg  []byte
+		err  error
+		temp GenericWsMessage
+	)
+	for {
+		if _, msg, err = conn.ReadMessage(); err == nil {
+			temp = GenericWsMessage{}
+			if err := json.Unmarshal(msg, &temp); err == nil {
+				clientMessages <- WsClientMessage{uid, temp}
+			} else {
+				fmt.Println("Error when parsing the websocket message")
+			}
+		} else {
+			if !isCloseMessage {
+				fmt.Println("Error when reading the message:", err)
+			}
+			break
+		}
+	}
+}
+
 func ConfigureWebsocket(app fiber.Router) {
 	app.Use("/", func(ctx *fiber.Ctx) error {
 		if websocket.IsWebSocketUpgrade(ctx) {
@@ -92,43 +132,5 @@ func ConfigureWebsocket(app fiber.Router) {
 
 	go runClientHandler()
 
-	app.Get("/", websocket.New(func(conn *websocket.Conn) {
-		var uid = uuid.New().String() + "-" + uuid.New().String()
-		registerClient <- WsClientData{uid, conn}
-
-		defer func(conn *websocket.Conn) {
-			unregisterClient <- uid
-			var err = conn.Close()
-			if err != nil {
-				fmt.Println("Error when trying to close the connection for client:", uid)
-			}
-		}(conn)
-
-		var isCloseMessage = false
-		conn.SetCloseHandler(func(code int, text string) error {
-			isCloseMessage = true
-			return nil
-		})
-
-		var (
-			msg  []byte
-			err  error
-			temp GenericWsMessage
-		)
-		for {
-			if _, msg, err = conn.ReadMessage(); err == nil {
-				temp = GenericWsMessage{}
-				if err := json.Unmarshal(msg, &temp); err == nil {
-					clientMessages <- WsClientMessage{uid, temp}
-				} else {
-					fmt.Println("Error when parsing the websocket message")
-				}
-			} else {
-				if !isCloseMessage {
-					fmt.Println("Error when reading the message:", err)
-				}
-				break
-			}
-		}
-	}))
+	app.Get("/", websocket.New(websocketMessageHandler))
 }

@@ -61,9 +61,7 @@ func createNewPaymentIntent(items []Item) (bool, string) {
 	}
 }
 
-func ConfigurePaymentEndpoints(server fiber.Router, stripePublicKey string, stripePrivateKey string) {
-	stripe.Key = stripePrivateKey
-
+func setupCreateNewPaymentIntentHandler(server fiber.Router) {
 	server.Post("/create-new-payment-intent", func(ctx *fiber.Ctx) error {
 		var inputData struct {
 			Items []Item `json:"items"`
@@ -86,7 +84,9 @@ func ConfigurePaymentEndpoints(server fiber.Router, stripePublicKey string, stri
 			return ctx.SendStatus(400)
 		}
 	})
+}
 
+func setupGetPaymentIntentHandler(server fiber.Router, stripePublicKey string) {
 	server.Get("/get-payment-intent/:paymentId", func(ctx *fiber.Ctx) error {
 		var paymentId = ctx.Params("paymentId", "")
 		if paymentId == "" {
@@ -111,8 +111,14 @@ func ConfigurePaymentEndpoints(server fiber.Router, stripePublicKey string, stri
 	})
 }
 
+func ConfigurePaymentEndpoints(server fiber.Router, stripePublicKey string, stripePrivateKey string) {
+	stripe.Key = stripePrivateKey
+	setupCreateNewPaymentIntentHandler(server)
+	setupGetPaymentIntentHandler(server, stripePublicKey)
+}
+
 func init() {
-	var fileBytes, _ = os.ReadFile("./PurchasableProducts.json")
+	var fileBytes, _ = os.ReadFile("./Portfolio/PurchasableProducts.json")
 	if err := json.Unmarshal(fileBytes, &products); err != nil {
 		panic(err)
 	}

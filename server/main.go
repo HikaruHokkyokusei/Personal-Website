@@ -6,7 +6,7 @@ import (
 	re "regexp"
 	"time"
 
-	PS "Server/Payment"
+	PPS "Server/Portfolio/Payment"
 	"Server/Utils"
 	WS "Server/WebSocket"
 
@@ -44,6 +44,7 @@ func createFiberApp() *fiber.App {
 			if matches, err := re.MatchString(allowedOriginsRegex, origin); err == nil {
 				return matches
 			} else {
+				log.Fatalf("[AllowedOriginsFunc] RegEx Error: %+v", err)
 				return false
 			}
 		},
@@ -58,7 +59,7 @@ func createFiberApp() *fiber.App {
 			return false
 		},
 		CacheControl: true,
-		Expiration:   24 * time.Hour,
+		Expiration:   1 * time.Hour,
 		ExpirationGenerator: func(ctx *fiber.Ctx, config *cache.Config) time.Duration {
 			// Redundant function kept just to remind of it's existence
 			return config.Expiration
@@ -76,7 +77,7 @@ func configureFiberApp(app *fiber.App) {
 	app.Get("/metrics", monitor.New())
 
 	WS.ConfigureWebsocket(app.Group("/ws"))
-	PS.ConfigurePaymentEndpoints(app.Group("/payment"), stripePublicKey, stripePrivateKey)
+	PPS.ConfigurePaymentEndpoints(app.Group("/portfolio/payment"), stripePublicKey, stripePrivateKey)
 
 	app.Static("/", "./../build", fiber.Static{
 		Index: "index.html",
