@@ -5,7 +5,6 @@
     import { WebSocketService } from "$lib/services/WebSocketService";
     import { genericDataStore } from "$lib/stores/GenericDataStore";
     import MainLoader from "$lib/components/generic/MainLoader.svelte";
-    import Hamburger from "$lib/components/generic/Hamburger.svelte";
 
     let isLoading = true;
 
@@ -38,9 +37,6 @@
     {#if isLoading}
         <MainLoader ringGapEm={1.5}></MainLoader>
     {:else}
-        {#if $genericDataStore.showHamburger}
-            <Hamburger></Hamburger>
-        {/if}
         <slot></slot>
     {/if}
 </div>

@@ -5,8 +5,8 @@
     import { page } from "$app/stores";
     import axios from "axios";
 
-    let showLoader = false, errorMessage = "", emailAddress = "", payableAmount;
-    let stripe: App.IStripe, elements;
+    let showLoader = false, errorMessage = "", emailAddress = "", payableAmount: string;
+    let stripe: App.IStripe, elements: any;
 
     onMount(() => {
         showLoader = true;
@@ -18,7 +18,7 @@
         }
     });
 
-    const initialize = (paymentId) => {
+    const initialize = (paymentId: string) => {
         axios.get(`${PUBLIC_SERVER_LOCATION_ORIGIN}/payment/get-payment-intent/${encodeURI(paymentId)}`).then((response) => {
             if (response.status === 200) {
                 let netAmount = response.data["netAmount"], decimals = netAmount % 100;
@@ -33,7 +33,7 @@
 
                 const linkAuthenticationElement = elements.create("linkAuthentication");
                 linkAuthenticationElement["mount"]("#link-authentication-element");
-                linkAuthenticationElement.on('change', (event) => {
+                linkAuthenticationElement.on('change', (event: any) => {
                     emailAddress = event.value["email"];
                 });
 
