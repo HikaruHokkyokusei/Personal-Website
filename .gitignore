@@ -1,16 +1,19 @@
+/.idea
+/.fleet
 .DS_Store
+
 node_modules
-/build
-/.svelte-kit
-/package
+pnpm-lock.yaml
+package-lock.json
+
 .env
 .env.*
 !.env.example
+
+/build
+/.svelte-kit
+/package
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-/.idea
-/.fleet
-/Temp/
-pnpm-lock.yaml
-package-lock.json
+/Temp
