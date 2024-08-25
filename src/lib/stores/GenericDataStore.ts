@@ -7,5 +7,6 @@ export const genericDataStore: Writable<GenericData> = writable({
     "themeName": "dark",
     "theme": Themes["dark"],
     "showHamburger": false,
-    mainPageSectionOneVersion: 2
+    mainPageSectionOneVersion: 2,
+    defaultRoute: "/portfolio"
 });

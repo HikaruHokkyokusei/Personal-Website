@@ -5,4 +5,5 @@ export interface GenericData {
     theme: Theme,
     showHamburger: boolean,
     mainPageSectionOneVersion: number
+    defaultRoute: string
 }
