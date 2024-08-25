@@ -6,7 +6,7 @@ import (
 	re "regexp"
 	"time"
 
-	PPS "Server/Portfolio/Payment"
+	"Server/Portfolio"
 	"Server/Utils"
 	WS "Server/WebSocket"
 
@@ -22,8 +22,6 @@ var (
 	portNumber          string
 	allowedOriginsRegex string
 	enableRouteLogs     string
-	stripePublicKey     string
-	stripePrivateKey    string
 )
 
 func createFiberApp() *fiber.App {
@@ -77,7 +75,7 @@ func configureFiberApp(app *fiber.App) {
 	app.Get("/metrics", monitor.New())
 
 	WS.ConfigureWebsocket(app.Group("/ws"))
-	PPS.ConfigurePaymentEndpoints(app.Group("/portfolio/payment"), stripePublicKey, stripePrivateKey)
+	Portfolio.ConfigurePortfolioEndpoints(app.Group("/portfolio"))
 
 	app.Static("/", "./../build", fiber.Static{
 		Index: "index.html",
@@ -89,12 +87,10 @@ func configureFiberApp(app *fiber.App) {
 
 func init() {
 	fmt.Println("こんにちは　世界...")
-	envName = Utils.GetDefaultEnv("EnvName", "prd")
+	envName = Utils.GetDefaultEnv("EnvName", "dev")
 	portNumber = Utils.GetDefaultEnv("PORT", "42069")
 	allowedOriginsRegex = Utils.GetDefaultEnv("AllowedOriginsRegEx", "")
 	enableRouteLogs = Utils.GetDefaultEnv("EnableRouteLogs", "false")
-	stripePrivateKey = Utils.GetDefaultEnv("StripePrivateKey", "")
-	stripePublicKey = Utils.GetDefaultEnv("StripePublicKey", "")
 }
 
 func main() {
